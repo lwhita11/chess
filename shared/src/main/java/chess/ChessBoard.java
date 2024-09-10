@@ -8,6 +8,7 @@ package chess;
  */
 public class ChessBoard {
 
+    public ChessPiece.PieceType[][] board = new ChessPiece.PieceType[8][8];
     public ChessBoard() {
         
     }
@@ -19,7 +20,9 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        int row = position.getRow();
+        int column = position.getColumn();
+        board[column][row] = piece.getPieceType();
     }
 
     /**
