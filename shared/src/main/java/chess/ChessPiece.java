@@ -9,6 +9,7 @@ import java.util.Collection;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
+
 public class ChessPiece {
 
     public ChessPiece.PieceType pieceType;
@@ -16,6 +17,16 @@ public class ChessPiece {
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceType = type;
         this.pieceColor = pieceColor;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     /**
@@ -53,17 +64,34 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<ChessMove>();
+        ChessGame.TeamColor myColor = board.getPiece(myPosition).pieceColor;
         switch(board.getPiece(myPosition).pieceType) {
             case KING:
-                if ((board.board[myPosition.row+1][myPosition.col] == null) && ((myPosition.row + 1) < 8)) {
+                if ((myPosition.row != 7) && (board.board[myPosition.row+1][myPosition.col] == null || board.board[myPosition.row+1][myPosition.col].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col), null));
                 }
-                if ((board.board[myPosition.row][myPosition.col+1] == null) && ((myPosition.col + 1) < 8)) {
+                if ((myPosition.col != 7) && (board.board[myPosition.row][myPosition.col+1] == null || board.board[myPosition.row][myPosition.col+1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row, myPosition.col+1), null));
                 }
-
+                if ( (myPosition.row != 0) && (board.board[myPosition.row-1][myPosition.col] == null || board.board[myPosition.row-1][myPosition.col].pieceColor != myColor) ) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col), null));
+                }
+                if ((myPosition.col != 0) && (board.board[myPosition.row][myPosition.col-1] == null || board.board[myPosition.row][myPosition.col-1].pieceColor != myColor)) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row, myPosition.col-1), null));
+                }
+                if ((myPosition.row  !=  7) && (myPosition.col != 7) && (board.board[myPosition.row+1][myPosition.col+1] == null || board.board[myPosition.row+1][myPosition.col+1].pieceColor != myColor)) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col+1), null));
+                }
+                if ((myPosition.row  !=  0) && (myPosition.col != 0) && (board.board[myPosition.row-1][myPosition.col-1] == null || board.board[myPosition.row-1][myPosition.col-1].pieceColor != myColor)) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col-1), null));
+                }
+                if ((myPosition.row  !=  7) && (myPosition.col != 0) && (board.board[myPosition.row+1][myPosition.col-1] == null || board.board[myPosition.row+1][myPosition.col-1].pieceColor != myColor)) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col-1), null));
+                }
+                if ((myPosition.row  !=  0) && (myPosition.col != 7) && (board.board[myPosition.row-1][myPosition.col+1] == null || board.board[myPosition.row-1][myPosition.col+1].pieceColor != myColor)) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col+1), null));
+                }
         }
-
         return moves;
     }
 }

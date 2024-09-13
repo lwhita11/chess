@@ -12,6 +12,15 @@ public class ChessBoard {
     public ChessBoard() {
         
     }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
     /**
      * Adds a chess piece to the chessboard
@@ -33,7 +42,8 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        throw new RuntimeException("Not implemented");
+
+        return board[position.getRow()][position.getColumn()];
     }
 
     /**
