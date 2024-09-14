@@ -71,28 +71,28 @@ public class ChessPiece {
         ChessGame.TeamColor myColor = board.getPiece(myPosition).pieceColor;
         switch(board.getPiece(myPosition).pieceType) {
             case KING:
-                if ((myPosition.row != 7) && (board.board[myPosition.row+1][myPosition.col] == null || board.board[myPosition.row+1][myPosition.col].pieceColor != myColor)) {
+                if ((myPosition.row != 8) && (board.board[myPosition.row+1][myPosition.col] == null || board.board[myPosition.row+1][myPosition.col].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col), null));
                 }
-                if ((myPosition.col != 7) && (board.board[myPosition.row][myPosition.col+1] == null || board.board[myPosition.row][myPosition.col+1].pieceColor != myColor)) {
+                if ((myPosition.col != 8) && (board.board[myPosition.row][myPosition.col+1] == null || board.board[myPosition.row][myPosition.col+1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row, myPosition.col+1), null));
                 }
-                if ( (myPosition.row != 0) && (board.board[myPosition.row-1][myPosition.col] == null || board.board[myPosition.row-1][myPosition.col].pieceColor != myColor) ) {
+                if ( (myPosition.row != 1) && (board.board[myPosition.row-1][myPosition.col] == null || board.board[myPosition.row-1][myPosition.col].pieceColor != myColor) ) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col), null));
                 }
-                if ((myPosition.col != 0) && (board.board[myPosition.row][myPosition.col-1] == null || board.board[myPosition.row][myPosition.col-1].pieceColor != myColor)) {
+                if ((myPosition.col != 1) && (board.board[myPosition.row][myPosition.col-1] == null || board.board[myPosition.row][myPosition.col-1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row, myPosition.col-1), null));
                 }
-                if ((myPosition.row  !=  7) && (myPosition.col != 7) && (board.board[myPosition.row+1][myPosition.col+1] == null || board.board[myPosition.row+1][myPosition.col+1].pieceColor != myColor)) {
+                if ((myPosition.row  !=  8) && (myPosition.col != 8) && (board.board[myPosition.row+1][myPosition.col+1] == null || board.board[myPosition.row+1][myPosition.col+1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col+1), null));
                 }
-                if ((myPosition.row  !=  0) && (myPosition.col != 0) && (board.board[myPosition.row-1][myPosition.col-1] == null || board.board[myPosition.row-1][myPosition.col-1].pieceColor != myColor)) {
+                if ((myPosition.row  !=  1) && (myPosition.col != 1) && (board.board[myPosition.row-1][myPosition.col-1] == null || board.board[myPosition.row-1][myPosition.col-1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col-1), null));
                 }
-                if ((myPosition.row  !=  7) && (myPosition.col != 0) && (board.board[myPosition.row+1][myPosition.col-1] == null || board.board[myPosition.row+1][myPosition.col-1].pieceColor != myColor)) {
+                if ((myPosition.row  !=  8) && (myPosition.col != 1) && (board.board[myPosition.row+1][myPosition.col-1] == null || board.board[myPosition.row+1][myPosition.col-1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row+1, myPosition.col-1), null));
                 }
-                if ((myPosition.row  !=  0) && (myPosition.col != 7) && (board.board[myPosition.row-1][myPosition.col+1] == null || board.board[myPosition.row-1][myPosition.col+1].pieceColor != myColor)) {
+                if ((myPosition.row  !=  1) && (myPosition.col != 8) && (board.board[myPosition.row-1][myPosition.col+1] == null || board.board[myPosition.row-1][myPosition.col+1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col+1), null));
                 }
         }
