@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/chess/PieceMovesCalculator/KingMovesCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +46,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.BishopMoveTests.bishopCaptureEnemy.executor": "Run",
+    "JUnit.BishopMoveTests.bishopMoveUntilEdge.executor": "Run",
+    "JUnit.BishopMoveTests.executor": "Run",
+    "JUnit.ChessBoardTests.defaultGameBoard.executor": "Run",
+    "JUnit.ChessBoardTests.executor": "Run",
+    "JUnit.ChessBoardTests.getAddPiece.executor": "Run",
     "JUnit.KingMoveTests.executor": "Run",
     "JUnit.KingMoveTests.kingBlocked.executor": "Run",
     "JUnit.KingMoveTests.kingCaptureEnemy.executor": "Debug",
@@ -65,8 +68,8 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.KingMoveTests">
-    <configuration name="KingMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.BishopMoveTests.bishopMoveUntilEdge">
+    <configuration name="BishopMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
@@ -75,13 +78,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="passoff.chess.piece" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KingMoveTests" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.BishopMoveTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KingMoveTests.kingBlocked" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BishopMoveTests.bishopCaptureEnemy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
@@ -90,14 +93,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="passoff.chess.piece" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KingMoveTests" />
-      <option name="METHOD_NAME" value="kingBlocked" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.BishopMoveTests" />
+      <option name="METHOD_NAME" value="bishopCaptureEnemy" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KingMoveTests.kingCaptureEnemy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BishopMoveTests.bishopMoveUntilEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
@@ -106,24 +109,39 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="passoff.chess.piece" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KingMoveTests" />
-      <option name="METHOD_NAME" value="kingCaptureEnemy" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.BishopMoveTests" />
+      <option name="METHOD_NAME" value="bishopMoveUntilEdge" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="KingMoveTests.kingMoveUntilEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChessBoardTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.piece.*" />
+          <option name="PATTERN" value="passoff.chess.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.piece" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.piece.KingMoveTests" />
-      <option name="METHOD_NAME" value="kingMoveUntilEdge" />
+      <option name="PACKAGE_NAME" value="passoff.chess" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessBoardTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChessBoardTests.defaultGameBoard" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessBoardTests" />
+      <option name="METHOD_NAME" value="defaultGameBoard" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -131,10 +149,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.KingMoveTests" />
-        <item itemvalue="JUnit.KingMoveTests.kingBlocked" />
-        <item itemvalue="JUnit.KingMoveTests.kingMoveUntilEdge" />
-        <item itemvalue="JUnit.KingMoveTests.kingCaptureEnemy" />
+        <item itemvalue="JUnit.BishopMoveTests.bishopMoveUntilEdge" />
+        <item itemvalue="JUnit.BishopMoveTests.bishopCaptureEnemy" />
+        <item itemvalue="JUnit.BishopMoveTests" />
+        <item itemvalue="JUnit.ChessBoardTests" />
+        <item itemvalue="JUnit.ChessBoardTests.defaultGameBoard" />
       </list>
     </recent_temporary>
   </component>
@@ -155,7 +174,7 @@
       <option name="presentableId" value="Default" />
       <updated>1725909111450</updated>
       <workItem from="1725909112917" duration="430000" />
-      <workItem from="1726242489268" duration="11257000" />
+      <workItem from="1726242489268" duration="17096000" />
     </task>
     <servers />
   </component>

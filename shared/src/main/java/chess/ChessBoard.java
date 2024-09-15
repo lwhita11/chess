@@ -17,6 +17,24 @@ public class ChessBoard {
     }
 
     @Override
+    public String toString() {
+        String retString = "";
+        for (int i = 0; i < 9; i++) {
+            retString = retString + "| ";
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == null) {
+                    retString += " |";
+                }
+                else {
+                    retString = retString + board[i][j].toString() + "|";
+                }
+            }
+            retString = retString + "\n";
+        }
+        return retString;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -60,7 +78,7 @@ public class ChessBoard {
     public void resetBoard() {
 
         //Black and White Pawns
-        for (int i= 0; i < board.length; i++) {
+        for (int i= 1; i < 9; i++) {
             board[2][i] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
             board[7][i] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
         }

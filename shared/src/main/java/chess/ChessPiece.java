@@ -33,6 +33,8 @@ public class ChessPiece {
         return Objects.hash(pieceType, pieceColor);
     }
 
+
+
     /**
      * The various different chess piece options
      */
@@ -45,6 +47,58 @@ public class ChessPiece {
         PAWN
     }
 
+    @Override
+    public String toString() {
+        if (this.pieceColor == ChessGame.TeamColor.WHITE) {
+            if (pieceType == ChessPiece.PieceType.KING) {
+                return "K";
+            }
+            else if (pieceType == ChessPiece.PieceType.QUEEN) {
+                return "Q";
+            }
+            else if (pieceType == ChessPiece.PieceType.BISHOP) {
+                return "B";
+            }
+            else if (pieceType == ChessPiece.PieceType.KNIGHT) {
+                return "N";
+            }
+            else if (pieceType == ChessPiece.PieceType.ROOK) {
+                return "R";
+            }
+            else if (pieceType == ChessPiece.PieceType.PAWN) {
+                return "P";
+            }
+            else {
+                throw new IllegalArgumentException("Invalid piece type: " + pieceType);
+            }
+        }
+        else if (this.pieceColor == ChessGame.TeamColor.BLACK) {
+            if (pieceType == ChessPiece.PieceType.KING) {
+                return "k";
+            }
+            else if (pieceType == ChessPiece.PieceType.QUEEN) {
+                return "q";
+            }
+            else if (pieceType == ChessPiece.PieceType.BISHOP) {
+                return "b";
+            }
+            else if (pieceType == ChessPiece.PieceType.KNIGHT) {
+                return "n";
+            }
+            else if (pieceType == ChessPiece.PieceType.ROOK) {
+                return "r";
+            }
+            else if (pieceType == ChessPiece.PieceType.PAWN) {
+                return "p";
+            }
+            else {
+                throw new IllegalArgumentException("Invalid piece type: " + pieceType);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Invalid piece color: " + pieceColor);
+        }
+    }
     /**
      * @return Which team this chess piece belongs to
      */
@@ -95,6 +149,75 @@ public class ChessPiece {
                 if ((myPosition.row  !=  1) && (myPosition.col != 8) && (board.board[myPosition.row-1][myPosition.col+1] == null || board.board[myPosition.row-1][myPosition.col+1].pieceColor != myColor)) {
                     moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row-1, myPosition.col+1), null));
                 }
+            case BISHOP:
+                int i = 0;
+                int j = 0;
+                boolean enemyPiece = false;
+                do {
+                    if (enemyPiece) {
+                        break;
+                    }
+                    if (board.board[myPosition.row + i][myPosition.col + j] != null && board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
+                        enemyPiece = true;
+                    }
+                    if (i != 0) {
+                        moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row + i, myPosition.col + j), null));
+                    }
+                    i++;
+                    j++;
+                }
+                while ((myPosition.row + i < 9 && myPosition.col + j < 9) && (board.board[myPosition.row + i][myPosition.col + j] == null || (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor && !enemyPiece)));
+                i = 0;
+                j = 0;
+                enemyPiece = false;
+                do {
+                    if (enemyPiece) {
+                        break;
+                    }
+                    if (i != 0) {
+                        moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row + i, myPosition.col + j), null));
+                    }
+                    if (board.board[myPosition.row + i][myPosition.col + j] != null && board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
+                        enemyPiece = true;
+                    }
+                    i++;
+                    j--;
+                }
+                while ((myPosition.row + i < 9 && myPosition.col + j > 0) && (board.board[myPosition.row + i][myPosition.col + j] == null || (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor && !enemyPiece)));
+                i = 0;
+                j = 0;
+                enemyPiece = false;
+                do {
+                    if (enemyPiece) {
+                        break;
+                    }
+                    if (i != 0) {
+                        moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row + i, myPosition.col + j), null));
+                    }
+                    if (board.board[myPosition.row + i][myPosition.col + j] != null && board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
+                        enemyPiece = true;
+                    }
+                    i--;
+                    j++;
+                }
+                while ((myPosition.row + i > 0 && myPosition.col + j < 9) && (board.board[myPosition.row + i][myPosition.col + j] == null || (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor && !enemyPiece)));
+                i = 0;
+                j = 0;
+                enemyPiece = false;
+                do {
+                    if (enemyPiece) {
+                        break;
+                    }
+                    if (i != 0) {
+                        moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row + i, myPosition.col + j), null));
+                    }
+                    if (board.board[myPosition.row + i][myPosition.col + j] != null && board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
+                        enemyPiece = true;
+                    }
+                    i--;
+                    j--;
+                }
+                while ((myPosition.row + i > 0 && myPosition.col + j > 0) && (board.board[myPosition.row + i][myPosition.col + j] == null || (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor && !enemyPiece)));
         }
         return moves;
     }
