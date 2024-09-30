@@ -13,6 +13,7 @@ public class ChessGame {
     private boolean whiteTurn = true;
     private ChessBoard board = new ChessBoard();
     public ChessGame() {
+        board.resetBoard();
     }
 
     /**
@@ -64,7 +65,6 @@ public class ChessGame {
         ChessPiece piece = board.getPiece(startPosition);
         Collection<ChessMove> moves = piece.pieceMoves(board, startPosition);
         return moves;
-
     }
 
     /**
@@ -74,14 +74,25 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
+        if (board.getPiece(move.getStartPosition()) == null) {
+            throw new InvalidMoveException("Move is invalid");
+
+        }
         Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
         if (validMoves.contains(move)) {
+            if (whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.BLACK) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+            else if (!whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.WHITE) {
+                throw new InvalidMoveException("Move is invalid");
+            }
             board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
             board.removePiece(move.getStartPosition());
         }
         else {
             throw new InvalidMoveException("Move is invalid");
         }
+        whiteTurn = !whiteTurn;
         //TODO
     }
 
