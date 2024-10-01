@@ -79,19 +79,68 @@ public class ChessGame {
 
         }
         Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
-        if (validMoves.contains(move)) {
-            if (whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.BLACK) {
-                throw new InvalidMoveException("Move is invalid");
-            }
-            else if (!whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.WHITE) {
-                throw new InvalidMoveException("Move is invalid");
-            }
-            board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
-            board.removePiece(move.getStartPosition());
-        }
-        else {
+        if (!validMoves.contains(move)) {
             throw new InvalidMoveException("Move is invalid");
         }
+        //Black piece moves on White turn
+        if (whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.BLACK) {
+            throw new InvalidMoveException("Move is invalid");
+        }
+        //White piece moves on Black turn
+        else if (!whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.WHITE) {
+            throw new InvalidMoveException("Move is invalid");
+        }
+
+        //Check King safety setup
+        ChessBoard tempBoard = board;
+        ChessGame.TeamColor tempColor;
+        boolean tempTurn = whiteTurn;
+        if (whiteTurn) {
+            tempColor = TeamColor.WHITE;
+        }
+        else {
+            tempColor = TeamColor.WHITE;
+        }
+
+        ChessPosition kingLocation = new ChessPosition(0, 0);
+        tempBoard.addPiece(move.getEndPosition(), tempBoard.getPiece(move.getStartPosition()));
+        tempBoard.removePiece(move.getStartPosition());
+
+        //Check King safety
+        for (int i = 0; i < 64; i++) {
+            int j = i % 8;
+            int w = i / 8;
+            if (tempBoard.getPiece(new ChessPosition(w, j)) == null) {
+                continue;
+            }
+            else if (tempBoard.getPiece(new ChessPosition(w, j)).getPieceType() == ChessPiece.PieceType.KING && tempBoard.getPiece(new ChessPosition(w, j)).getTeamColor() == tempColor) {
+                kingLocation = new ChessPosition(w, j);
+            }
+            Collection<ChessMove> testMoves = validMoves(new ChessPosition(w, j));
+            ChessMove invalidMove = new ChessMove(new ChessPosition(w, j), kingLocation, null);
+            ChessMove invalidMove2 = new ChessMove(new ChessPosition(w, j), kingLocation, ChessPiece.PieceType.QUEEN);
+            ChessMove invalidMove3 = new ChessMove(new ChessPosition(w, j), kingLocation, ChessPiece.PieceType.ROOK);
+            ChessMove invalidMove4 = new ChessMove(new ChessPosition(w, j), kingLocation, ChessPiece.PieceType.BISHOP);
+            ChessMove invalidMove5 = new ChessMove(new ChessPosition(w, j), kingLocation, ChessPiece.PieceType.KNIGHT);
+            if (testMoves.contains(invalidMove)) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+            if (testMoves.contains(invalidMove2)) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+            if (testMoves.contains(invalidMove3)) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+            if (testMoves.contains(invalidMove4)) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+            if (testMoves.contains(invalidMove5)) {
+                throw new InvalidMoveException("Move is invalid");
+            }
+        }
+
+        board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
+        board.removePiece(move.getStartPosition());
         whiteTurn = !whiteTurn;
         //TODO
     }
