@@ -7,6 +7,7 @@
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessMove.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,32 +98,32 @@
       <recent name="$PROJECT_DIR$/shared/src/test/java/passoff/chess" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MakeMoveTests.makeValidKingMove">
-    <configuration name="ChessMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.GameStatusTests">
+    <configuration name="GameStatusTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.*" />
+          <option name="PATTERN" value="passoff.chess.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessMoveTests" />
+      <option name="PACKAGE_NAME" value="passoff.chess.game" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.GameStatusTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChessPositionTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MakeMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.*" />
+          <option name="PATTERN" value="passoff.chess.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.ChessPositionTests" />
+      <option name="PACKAGE_NAME" value="passoff.chess.game" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.MakeMoveTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -144,7 +145,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ValidMovesTests.forcedMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MakeMoveTests.promotionMoves" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
@@ -153,14 +154,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.ValidMovesTests" />
-      <option name="METHOD_NAME" value="forcedMove" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.MakeMoveTests" />
+      <option name="METHOD_NAME" value="promotionMoves(chess.ChessPiece$PieceType)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ValidMovesTests.moveIntoCheck" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ValidMovesTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
@@ -170,19 +171,18 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.chess.game" />
       <option name="MAIN_CLASS_NAME" value="passoff.chess.game.ValidMovesTests" />
-      <option name="METHOD_NAME" value="moveIntoCheck" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GameStatusTests" />
+        <item itemvalue="JUnit.ValidMovesTests" />
+        <item itemvalue="JUnit.MakeMoveTests" />
+        <item itemvalue="JUnit.MakeMoveTests.promotionMoves" />
         <item itemvalue="JUnit.MakeMoveTests.makeValidKingMove" />
-        <item itemvalue="JUnit.ValidMovesTests.moveIntoCheck" />
-        <item itemvalue="JUnit.ValidMovesTests.forcedMove" />
-        <item itemvalue="JUnit.ChessPositionTests" />
-        <item itemvalue="JUnit.ChessMoveTests" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +206,7 @@
       <workItem from="1726242489268" duration="11257000" />
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
-      <workItem from="1727662855883" duration="11323000" />
+      <workItem from="1727662855883" duration="19375000" />
     </task>
     <servers />
   </component>
