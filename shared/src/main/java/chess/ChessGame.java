@@ -71,18 +71,19 @@ public class ChessGame {
     private boolean SimulateMove(ChessMove move){
         ChessPosition startPos = move.getStartPosition();
         ChessPosition endPos = move.getEndPosition();
+        ChessPiece capturedPiece = board.getPiece(endPos);
         ChessPiece piece = board.getPiece(startPos);
         ChessGame.TeamColor teamColor = piece.getTeamColor();
         board.addPiece(endPos, piece);
         board.removePiece(startPos);
         if (isInCheck(teamColor)) {
             board.addPiece(startPos, piece);
-            board.removePiece(endPos);
+            board.addPiece(endPos, capturedPiece);
             return false;
         }
         else {
             board.addPiece(startPos, piece);
-            board.removePiece(endPos);
+            board.addPiece(endPos, capturedPiece);
             return true;
         }
     }
@@ -220,7 +221,26 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        throw new RuntimeException("Not implemented");
+        int possibleMoves = 0;
+        for (int i = 0; i < 64; i++) {
+            int j = (i % 8) + 1;
+            int w = (i / 8) + 1;
+            ChessPosition testPos = new ChessPosition(w, j);
+            if (board.getPiece(testPos) == null) {
+                continue;
+            }
+            if (board.getPiece(testPos).getTeamColor() != teamColor) {
+                continue;
+            }
+            ChessPiece testPiece = board.getPiece(testPos);
+            Collection<ChessMove> testMoves = testPiece.pieceMoves(board, testPos);
+            testMoves.removeIf(move -> !SimulateMove(move));
+            possibleMoves = possibleMoves + testMoves.size();
+        }
+        if (possibleMoves == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -231,7 +251,29 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        if (isInCheck(teamColor)) {
+            return false;
+        }
+        int possibleMoves = 0;
+        for (int i = 0; i < 64; i++) {
+            int j = (i % 8) + 1;
+            int w = (i / 8) + 1;
+            ChessPosition testPos = new ChessPosition(w, j);
+            if (board.getPiece(testPos) == null) {
+                continue;
+            }
+            if (board.getPiece(testPos).getTeamColor() != teamColor) {
+                continue;
+            }
+            ChessPiece testPiece = board.getPiece(testPos);
+            Collection<ChessMove> testMoves = testPiece.pieceMoves(board, testPos);
+            testMoves.removeIf(move -> !SimulateMove(move));
+            possibleMoves = possibleMoves + testMoves.size();
+        }
+        if (possibleMoves == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**

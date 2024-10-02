@@ -30,6 +30,10 @@ public class ChessPosition {
         return Objects.hash(row, col);
     }
 
+    public String toString() {
+        return "(" + row + ", " + col + ")";
+    }
+
     /**
      * @return which row this position is in
      * 1 codes for the bottom row
