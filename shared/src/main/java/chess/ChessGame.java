@@ -70,6 +70,8 @@ public class ChessGame {
 
 
     private boolean SimulateMove(ChessMove move){
+
+        // To see if a move will put you in Check
         ChessPosition startPos = move.getStartPosition();
         ChessPosition endPos = move.getEndPosition();
         ChessPiece capturedPiece = board.getPiece(endPos);
@@ -161,6 +163,7 @@ public class ChessGame {
         ChessPosition startPos = move.getStartPosition();
         ChessPosition endPos = move.getEndPosition();
         ChessPiece piece = board.getPiece(startPos);
+        //Piece is null
         if (piece == null) {
             throw new InvalidMoveException("Move is invalid");
 
@@ -168,6 +171,7 @@ public class ChessGame {
         ChessGame.TeamColor teamColor = piece.getTeamColor();
         ChessPiece.PieceType pieceType = piece.getPieceType();
         Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        //If move is not in the valid moves
         if (!validMoves.contains(move)) {
             throw new InvalidMoveException("Move is invalid");
         }
@@ -179,6 +183,7 @@ public class ChessGame {
         else if (!whiteTurn && board.getPiece(move.getStartPosition()).getTeamColor() == TeamColor.WHITE) {
             throw new InvalidMoveException("Move is invalid");
         }
+        //Castling logic
         if (pieceType == ChessPiece.PieceType.PAWN && (endPos.getRow() == 8 || endPos.getRow() == 1)) {
             board.addPiece(endPos, new ChessPiece(teamColor, move.getPromotionPiece()));
             board.removePiece(startPos);
