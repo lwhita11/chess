@@ -11,6 +11,7 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessGame {
+
     private boolean whiteTurn = true;
     private ChessBoard board = new ChessBoard();
     public ChessGame() {
