@@ -15,6 +15,7 @@ public class ChessPiece {
 
     public ChessPiece.PieceType pieceType;
     public ChessGame.TeamColor pieceColor;
+    private boolean hasMoved = false;
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceType = type;
         this.pieceColor = pieceColor;
@@ -111,6 +112,14 @@ public class ChessPiece {
      */
     public PieceType getPieceType() {
         return pieceType;
+    }
+
+    public void setHasMoved(){
+        hasMoved = true;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
     }
 
     /**

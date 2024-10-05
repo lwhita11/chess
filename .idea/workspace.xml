@@ -7,7 +7,8 @@
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessPiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/test/java/passoff/chess/extracredit/EnPassantTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,10 +48,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.BishopMoveTests.executor": "Run",
+    "JUnit.CastlingTests.castleWhite.executor": "Debug",
+    "JUnit.CastlingTests.executor": "Run",
     "JUnit.ChessBoardTests.executor": "Run",
     "JUnit.ChessBoardTests.pieceMoveAllPieces.executor": "Run",
     "JUnit.ChessMoveTests.executor": "Run",
     "JUnit.ChessPositionTests.executor": "Run",
+    "JUnit.FullGameTest.executor": "Run",
     "JUnit.GameStatusTests.executor": "Run",
     "JUnit.KingMoveTests.executor": "Run",
     "JUnit.KingMoveTests.kingBlocked.executor": "Run",
@@ -81,6 +85,7 @@
     "JUnit.ValidMovesTests.forcedMove.executor": "Run",
     "JUnit.ValidMovesTests.kingInDanger.executor": "Run",
     "JUnit.ValidMovesTests.moveIntoCheck.executor": "Run",
+    "JUnit.passoff in shared.executor": "Run",
     "JUnit.passoff.chess in shared.executor": "Run",
     "JUnit.passoff.chess.piece in shared.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -101,7 +106,38 @@
       <recent name="$PROJECT_DIR$/shared/src/test/java/passoff/chess" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FullGameTest">
+  <component name="RunManager" selected="JUnit.passoff in shared">
+    <configuration name="CastlingTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.extracredit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.extracredit" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.extracredit.CastlingTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CastlingTests.castleWhite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shared" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.chess.extracredit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.chess.extracredit" />
+      <option name="MAIN_CLASS_NAME" value="passoff.chess.extracredit.CastlingTests" />
+      <option name="METHOD_NAME" value="castleWhite" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FullGameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
@@ -132,59 +168,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MakeMoveTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="passoff in shared" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shared" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.game.*" />
+          <option name="PATTERN" value="passoff.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.MakeMoveTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ValidMovesTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.chess.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.ValidMovesTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ValidMovesTests.forcedMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="passoff.chess.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.ValidMovesTests" />
-      <option name="METHOD_NAME" value="forcedMove" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="passoff" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.passoff in shared" />
+        <item itemvalue="JUnit.CastlingTests" />
+        <item itemvalue="JUnit.CastlingTests.castleWhite" />
         <item itemvalue="JUnit.FullGameTest" />
         <item itemvalue="JUnit.GameStatusTests" />
-        <item itemvalue="JUnit.MakeMoveTests" />
-        <item itemvalue="JUnit.ValidMovesTests" />
-        <item itemvalue="JUnit.ValidMovesTests.forcedMove" />
       </list>
     </recent_temporary>
   </component>
@@ -208,7 +212,7 @@
       <workItem from="1726242489268" duration="11257000" />
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
-      <workItem from="1727662855883" duration="23882000" />
+      <workItem from="1727662855883" duration="30917000" />
     </task>
     <servers />
   </component>

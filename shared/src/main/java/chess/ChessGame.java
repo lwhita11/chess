@@ -104,6 +104,48 @@ public class ChessGame {
 
         moves.removeIf(move -> !SimulateMove(move));
 
+        //Castling
+        if (piece.getPieceType() == ChessPiece.PieceType.KING && !piece.hasMoved()) {
+            ChessPiece Rook1;
+            ChessPiece Rook2;
+            if (piece.getTeamColor() == TeamColor.WHITE) {
+                Rook1 = board.getPiece(new ChessPosition(1, 1));
+                Rook2 = board.getPiece(new ChessPosition(1, 8));
+                if (Rook1 != null && !Rook1.hasMoved() && board.getPiece(new ChessPosition(1, 2)) == null && board.getPiece(new ChessPosition(1, 3)) == null && board.getPiece(new ChessPosition(1, 4)) == null){
+                    ChessMove move1 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() - 1), null);
+                    ChessMove move2 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() - 2), null);
+                    if (SimulateMove(move1) && SimulateMove(move2)) {
+                        moves.add(move2);
+                    }
+                }
+                if (Rook2 != null && !Rook2.hasMoved() && board.getPiece(new ChessPosition(1, 7)) == null && board.getPiece(new ChessPosition(1, 6)) == null){
+                    ChessMove move1 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() + 1), null);
+                    ChessMove move2 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() + 2), null);
+                    if (SimulateMove(move1) && SimulateMove(move2)) {
+                        moves.add(move2);
+                    }
+                }
+
+            }
+            if (piece.getTeamColor() == TeamColor.BLACK) {
+                Rook1 = board.getPiece(new ChessPosition(8, 1));
+                Rook2 = board.getPiece(new ChessPosition(8, 8));
+                if (Rook1 != null && !Rook1.hasMoved() && board.getPiece(new ChessPosition(8, 2)) == null && board.getPiece(new ChessPosition(8, 3)) == null && board.getPiece(new ChessPosition(8, 4)) == null){
+                    ChessMove move1 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() - 1), null);
+                    ChessMove move2 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() - 2), null);
+                    if (SimulateMove(move1) && SimulateMove(move2)) {
+                        moves.add(move2);
+                    }
+                }
+                if (Rook2 != null && !Rook2.hasMoved() && board.getPiece(new ChessPosition(8, 7)) == null && board.getPiece(new ChessPosition(8, 6)) == null){
+                    ChessMove move1 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() + 1), null);
+                    ChessMove move2 = new ChessMove(startPosition,new ChessPosition(startPosition.getRow(), startPosition.getColumn() + 2), null);
+                    if (SimulateMove(move1) && SimulateMove(move2)) {
+                        moves.add(move2);
+                    }
+                }
+            }
+        }
         return moves;
 
     }
@@ -142,10 +184,30 @@ public class ChessGame {
             whiteTurn = !whiteTurn;
             return;
         }
+        if (pieceType == ChessPiece.PieceType.KING && ((startPos.getColumn() - endPos.getColumn() > 1) || (startPos.getColumn() - endPos.getColumn() < -1))) {
+            if (startPos.getColumn() - endPos.getColumn() > 1) {
+                board.addPiece(new ChessPosition(startPos.getRow(), startPos.getColumn() - 1), new ChessPiece(teamColor, ChessPiece.PieceType.ROOK));
+                board.removePiece(new ChessPosition(startPos.getRow(), 1));
+                board.addPiece(endPos, board.getPiece(startPos));
+                board.removePiece(startPos);
+                whiteTurn = !whiteTurn;
+                piece.setHasMoved();
+                return;
+            }
+            if (startPos.getColumn() - endPos.getColumn() < -1) {
+                board.addPiece(new ChessPosition(startPos.getRow(), startPos.getColumn() + 1), new ChessPiece(teamColor, ChessPiece.PieceType.ROOK));
+                board.removePiece(new ChessPosition(startPos.getRow(), 8));
+                board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
+                board.removePiece(move.getStartPosition());
+                whiteTurn = !whiteTurn;
+                piece.setHasMoved();
+                return;
+            }
+        }
         board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
         board.removePiece(move.getStartPosition());
         whiteTurn = !whiteTurn;
-        //TODO
+        piece.setHasMoved();
     }
 
     /**
