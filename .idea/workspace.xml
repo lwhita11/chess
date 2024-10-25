@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryDataAccess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/service/ChessService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccessException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryDataAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/ChessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/ChessService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +84,7 @@
     "JUnit.QueenMoveTests.executor": "Run",
     "JUnit.RookMoveTests.executor": "Run",
     "JUnit.RookMoveTests.rookMoveUntilEdge.executor": "Run",
+    "JUnit.StandardAPITests.executor": "Run",
     "JUnit.ValidMovesTests.executor": "Run",
     "JUnit.ValidMovesTests.forcedMove.executor": "Run",
     "JUnit.ValidMovesTests.kingInDanger.executor": "Run",
@@ -157,16 +157,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FullGameTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shared" />
+    <configuration name="StandardAPITests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="passoff.chess.game.*" />
+          <option name="PATTERN" value="passoff.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="passoff.chess.game" />
-      <option name="MAIN_CLASS_NAME" value="passoff.chess.game.FullGameTest" />
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.StandardAPITests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -189,10 +189,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.StandardAPITests" />
         <item itemvalue="JUnit.passoff in shared" />
         <item itemvalue="JUnit.CastlingTests" />
         <item itemvalue="JUnit.CastlingTests.castleWhite" />
-        <item itemvalue="JUnit.FullGameTest" />
       </list>
     </recent_temporary>
   </component>
@@ -216,7 +216,7 @@
       <workItem from="1726242489268" duration="11257000" />
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
-      <workItem from="1727662855883" duration="63430000" />
+      <workItem from="1727662855883" duration="72024000" />
     </task>
     <servers />
   </component>
