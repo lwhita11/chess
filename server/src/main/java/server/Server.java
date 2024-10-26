@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import spark.*;
 
@@ -28,6 +29,7 @@ public class Server {
         Spark.delete("/session", this::logout);
         Spark.get("/game", this::listGames);
         Spark.post("/game", this::createGame);
+        Spark.put("/game", this::joinGame);
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
         Spark.init();
@@ -64,7 +66,7 @@ public class Server {
             res.status(403);
             return new Gson().toJson(Map.of("message", "Error: already taken"));
         }
-        if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+        if (username == null || password == null || email == null) {
             res.status(400);
             return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
@@ -120,7 +122,7 @@ public class Server {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
         }
-        if (gameName.isEmpty()) {
+        if (gameName == null) {
             res.status(400);
             return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
@@ -130,6 +132,43 @@ public class Server {
         response.put("gameID", gameID);
         return new Gson().toJson(response);
     }
+
+    private Object joinGame(Request req, Response res) {
+        joinGame joinGameData = new Gson().fromJson(req.body(), joinGame.class);
+        ChessGame.TeamColor playerColor = joinGameData.playerColor();
+        String gameID = joinGameData.gameID();
+        String authToken = req.headers("authorization");
+        if (service.invalidToken(authToken)) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        }
+        if (playerColor == null || gameID == null) {
+            res.status(400);
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
+        if (service.invalidID(gameID)) {
+            res.status(400);
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
+        if (service.teamIsTaken(gameID, playerColor)){
+            res.status(403);
+            return new Gson().toJson(Map.of("message", "Error: already taken"));
+        }
+        if(playerColor.equals(ChessGame.TeamColor.BLACK)) {
+            service.setBlackTeam(authToken, gameID);
+        }
+        else if(playerColor.equals(ChessGame.TeamColor.WHITE)) {
+            service.setWhiteTeam(authToken, gameID);
+        }
+        else {
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
+        res.status(200);
+        Map<String, String> response = new HashMap<>();
+        return new Gson().toJson(response);
+    }
+
+    private record joinGame(ChessGame.TeamColor playerColor, String gameID) {}
 
     public void stop() {
         Spark.stop();

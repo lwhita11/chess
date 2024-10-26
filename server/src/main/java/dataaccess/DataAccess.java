@@ -14,6 +14,9 @@ public interface DataAccess {
     public void deleteToken(String authToken);
     public List<Map<String, String>> listGames();
     public String addGame(String gameName);
+    public Map<String, String> getGame(String gameID);
+    public void setBlackTeam(String username, String gameID);
+    public void setWhiteTeam(String username, String gameID);
 }
 
 

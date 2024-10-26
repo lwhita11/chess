@@ -9,7 +9,8 @@ import java.util.Map;
 public class MemoryDataAccess implements DataAccess{
     HashMap<String, String> passwords = new HashMap<>();
     HashMap<String, String> authTokens = new HashMap<>();
-    List<Map<String, String>> games = new ArrayList<>();
+    List<Map<String, String>> gamesList = new ArrayList<>();
+    Map<String, Map<String, String>> gamesMap = new HashMap<>();
     int gameID = 1;
 
     public String getPassword(String username) {
@@ -27,7 +28,8 @@ public class MemoryDataAccess implements DataAccess{
     public void clearData() {
         passwords.clear();
         authTokens.clear();
-        //remove games
+        gamesMap.clear();
+        gamesList.clear();
     }
 
     public String getUsername(String authToken) {
@@ -39,7 +41,7 @@ public class MemoryDataAccess implements DataAccess{
     }
 
     public List<Map<String, String>> listGames() {
-        return games;
+        return gamesList;
     }
 
     public String addGame(String gameName) {
@@ -50,7 +52,24 @@ public class MemoryDataAccess implements DataAccess{
         thisGame.put("whiteUsername", null);
         thisGame.put("blackUsername", null);
         thisGame.put("gameName", gameName);
-        games.add(thisGame);
+        gamesList.add(thisGame);
+        gamesMap.put(thisId, thisGame);
         return thisId;
+    }
+
+    public Map<String, String> getGame(String gameID) {
+        return gamesMap.get(gameID);
+    }
+
+    public void setBlackTeam(String username, String gameID) {
+        Map<String, String> game = gamesMap.get(gameID);
+        game.put("blackUsername", username);
+        gamesMap.put(gameID, game);
+    }
+
+    public void setWhiteTeam(String username, String gameID) {
+        Map<String, String> game = gamesMap.get(gameID);
+        game.put("whiteUsername", username);
+        gamesMap.put(gameID, game);
     }
 }

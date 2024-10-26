@@ -1,5 +1,6 @@
 package service;
 
+import chess.ChessGame;
 import dataaccess.DataAccess;
 import dataaccess.MemoryDataAccess;
 
@@ -63,5 +64,36 @@ public class ChessService {
 
     public String addGame(String gameName){
         return dataAccess.addGame(gameName);
+    }
+
+    public boolean teamIsTaken(String gameID, ChessGame.TeamColor playerColor) {
+        Map<String, String> game = dataAccess.getGame(gameID);
+        String teamColor = "";
+        if (playerColor.equals(ChessGame.TeamColor.BLACK)) {
+            teamColor = "blackUsername";
+        }
+        if (playerColor.equals(ChessGame.TeamColor.WHITE)) {
+            teamColor = "whiteUsername";
+        }
+        if (game.get(teamColor) == null){
+            return false;
+        }
+        return true;
+    }
+
+    public void setWhiteTeam(String authToken, String gameID) {
+        String username = dataAccess.getUsername(authToken);
+        dataAccess.setWhiteTeam(username, gameID);
+    }
+    public void setBlackTeam(String authToken, String gameID) {
+        String username = dataAccess.getUsername(authToken);
+        dataAccess.setBlackTeam(username, gameID);
+    }
+
+    public boolean invalidID(String gameID) {
+        if (dataAccess.getGame(gameID) == null) {
+            return true;
+        }
+        return false;
     }
 }
