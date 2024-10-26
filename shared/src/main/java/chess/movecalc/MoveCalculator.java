@@ -1,4 +1,4 @@
-package chess.MoveCalc;
+package chess.movecalc;
 
 import chess.*;
 
@@ -249,54 +249,19 @@ public class MoveCalculator {
 
     public Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
+        moves.addAll(bishopLoop(1, 1, board, myPosition));
+        moves.addAll(bishopLoop(-1, 1, board, myPosition));
+        moves.addAll(bishopLoop(1, -1, board, myPosition));
+        moves.addAll(bishopLoop(-1, -1, board, myPosition));
+        return moves;
+    }
+
+    Collection<ChessMove> bishopLoop(int displaceI, int displaceJ, ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> moves = new ArrayList<>();
         ChessGame.TeamColor myColor = board.getPiece(myPosition).getTeamColor();
+        boolean enemyPiece = false;
         int i = 0;
         int j = 0;
-        boolean enemyPiece = false;
-        do {
-            if (enemyPiece) {
-                break;
-            }
-            if (board.board[myPosition.row + i][myPosition.col + j] != null &&
-                    board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
-                enemyPiece = true;
-            }
-            if (i != 0) {
-                moves.add(new ChessMove(myPosition,
-                        new ChessPosition(myPosition.row + i, myPosition.col + j), null));
-            }
-            i++;
-            j++;
-        }
-        while ((myPosition.row + i < 9 && myPosition.col + j < 9) &&
-                (board.board[myPosition.row + i][myPosition.col + j] == null ||
-                        (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor &&
-                                !enemyPiece)));
-        i = 0;
-        j = 0;
-        enemyPiece = false;
-        do {
-            if (enemyPiece) {
-                break;
-            }
-            if (i != 0) {
-                moves.add(new ChessMove(myPosition,
-                        new ChessPosition(myPosition.row + i, myPosition.col + j), null));
-            }
-            if (board.board[myPosition.row + i][myPosition.col + j] != null &&
-                    board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
-                enemyPiece = true;
-            }
-            i++;
-            j--;
-        }
-        while ((myPosition.row + i < 9 && myPosition.col + j > 0) &&
-                (board.board[myPosition.row + i][myPosition.col + j] == null ||
-                        (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor &&
-                                !enemyPiece)));
-        i = 0;
-        j = 0;
-        enemyPiece = false;
         do {
             if (enemyPiece) {
                 break;
@@ -309,32 +274,11 @@ public class MoveCalculator {
                     board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
                 enemyPiece = true;
             }
-            i--;
-            j++;
-        }
-        while ((myPosition.row + i > 0 && myPosition.col + j < 9) &&
-                (board.board[myPosition.row + i][myPosition.col + j] == null ||
-                        (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor &&
-                                !enemyPiece)));
-        i = 0;
-        j = 0;
-        enemyPiece = false;
-        do {
-            if (enemyPiece) {
-                break;
-            }
-            if (i != 0) {
-                moves.add(new ChessMove(myPosition, new ChessPosition(myPosition.row + i, myPosition.col + j),
-                        null));
-            }
-            if (board.board[myPosition.row + i][myPosition.col + j] != null &&
-                    board.board[myPosition.row + i][myPosition.col + j].pieceColor != myColor) {
-                enemyPiece = true;
-            }
-            i--;
-            j--;
+            i = i + displaceI;
+            j = j + displaceJ;
         }
         while ((myPosition.row + i > 0 && myPosition.col + j > 0) &&
+                (myPosition.row + i < 9 && myPosition.col + j < 9) &&
                 (board.board[myPosition.row + i][myPosition.col + j] == null ||
                         (board.board[myPosition.row + i][myPosition.col + j].getTeamColor() != myColor &&
                                 !enemyPiece)));
