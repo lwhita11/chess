@@ -134,7 +134,7 @@ public class Server {
     }
 
     private Object joinGame(Request req, Response res) {
-        joinGame joinGameData = new Gson().fromJson(req.body(), joinGame.class);
+        JoinGame joinGameData = new Gson().fromJson(req.body(), JoinGame.class);
         ChessGame.TeamColor playerColor = joinGameData.playerColor();
         String gameID = joinGameData.gameID();
         String authToken = req.headers("authorization");
@@ -168,7 +168,7 @@ public class Server {
         return new Gson().toJson(response);
     }
 
-    private record joinGame(ChessGame.TeamColor playerColor, String gameID) {}
+    private record JoinGame(ChessGame.TeamColor playerColor, String gameID) {}
 
     public void stop() {
         Spark.stop();
