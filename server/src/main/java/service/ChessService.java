@@ -24,11 +24,13 @@ public class ChessService {
         return false;
     }
 
-    public String generateToken() {
-        return UUID.randomUUID().toString();
+    public String generateToken(String username) {
+        String authToken = UUID.randomUUID().toString();
+        putToken(username, authToken);
+        return authToken;
     }
 
-    public void putToken(String username, String authToken) {
+    private void putToken(String username, String authToken) {
         dataAccess.putToken(username, authToken);
     }
 

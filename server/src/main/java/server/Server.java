@@ -47,8 +47,7 @@ public class Server {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
         }
-        String authToken = service.generateToken();
-        service.putToken(username, authToken);
+        String authToken = service.generateToken(username);
 
         Map<String, String> response = new HashMap<>();
         response.put("authToken", authToken);
@@ -71,8 +70,7 @@ public class Server {
             return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
         service.addUser(username, password);
-        String authToken = service.generateToken();
-        service.putToken(username, authToken);
+        String authToken = service.generateToken(username);
 
         Map<String, String> response = new HashMap<>();
         response.put("authToken", authToken);
