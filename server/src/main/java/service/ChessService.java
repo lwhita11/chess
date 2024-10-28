@@ -70,6 +70,9 @@ public class ChessService {
 
     public boolean teamIsTaken(String gameID, ChessGame.TeamColor playerColor) {
         Map<String, String> game = dataAccess.getGame(gameID);
+        if (game == null) {
+            return true;
+        }
         String teamColor = "";
         if (playerColor.equals(ChessGame.TeamColor.BLACK)) {
             teamColor = "blackUsername";
@@ -84,12 +87,16 @@ public class ChessService {
     }
 
     public void setWhiteTeam(String authToken, String gameID) {
-        String username = dataAccess.getUsername(authToken);
-        dataAccess.setWhiteTeam(username, gameID);
+        if (!teamIsTaken(gameID, ChessGame.TeamColor.WHITE)) {
+            String username = dataAccess.getUsername(authToken);
+            dataAccess.setWhiteTeam(username, gameID);
+        }
     }
     public void setBlackTeam(String authToken, String gameID) {
-        String username = dataAccess.getUsername(authToken);
-        dataAccess.setBlackTeam(username, gameID);
+        if (!teamIsTaken(gameID, ChessGame.TeamColor.BLACK)) {
+            String username = dataAccess.getUsername(authToken);
+            dataAccess.setBlackTeam(username, gameID);
+        }
     }
 
     public boolean invalidID(String gameID) {

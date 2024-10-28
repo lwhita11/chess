@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import chess.ChessGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import exception.ResponseException;
+import spark.Response;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTests {
@@ -91,6 +94,143 @@ public class ServiceTests {
         String authToken = service.generateToken("LeBron");
         service.addUser("Jimmy", "John");
         String authToken1 = service.generateToken("Jimmy");
+        service.deleteToken(authToken);
+        assertTrue(service.invalidToken(authToken));
     }
+
+    @Test
+    void deleteWrongToken() throws ResponseException {
+        service.addUser("LeBron", "James");
+        String authToken = service.generateToken("LeBron");
+        service.addUser("Jimmy", "John");
+        String authToken1 = service.generateToken("Jimmy");
+        service.deleteToken("Hahahaha");
+        assertFalse(service.invalidToken(authToken));
+    }
+
+    @Test
+    void listGames() throws ResponseException {
+        service.addGame("test game");
+        service.addGame("test game2");
+        List<Map<String, String>> games = service.listGames();
+        assertEquals(2, games.size());
+    }
+
+    @Test
+    void listAfterClear() throws ResponseException {
+        service.addGame("test game");
+        service.addGame("test game2");
+        service.clearData();
+        List<Map<String, String>> games = service.listGames();
+        assertEquals(0, games.size());
+    }
+
+    @Test
+    void addGame() throws ResponseException {
+        service.addGame("test game");
+        List<Map<String, String>> games = service.listGames();
+        assertEquals(1, games.size());
+    }
+
+    @Test
+    void addBadGame() throws ResponseException {
+        service.addGame("test game");
+        service.addGame("test game2");
+        List<Map<String, String>> games = service.listGames();
+        assertEquals(2, games.size());
+    }
+
+    @Test
+    void setBlack() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        service.setBlackTeam(authToken, gameID);
+        List<Map<String, String>> games = service.listGames();
+        assertTrue(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+    }
+
+    @Test
+    void badSetBlack() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        service.setBlackTeam(authToken, "1234");
+        service.setBlackTeam("badToken", gameID);
+        List<Map<String, String>> games = service.listGames();
+        assertFalse(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+    }
+
+    @Test
+    void setWhite() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        service.setBlackTeam(authToken, gameID);
+        List<Map<String, String>> games = service.listGames();
+        assertTrue(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+    }
+
+    @Test
+    void badSetWhite() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        service.setWhiteTeam(authToken, "1234");
+        service.setWhiteTeam("badToken", gameID);
+        List<Map<String, String>> games = service.listGames();
+        assertFalse(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+    }
+
+    @Test
+    void teamIsTaken() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        service.setBlackTeam(authToken, gameID);
+        service.setWhiteTeam(authToken, gameID);
+        List<Map<String, String>> games = service.listGames();
+        assertTrue(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+        assertTrue(service.teamIsTaken(gameID, ChessGame.TeamColor.WHITE));
+    }
+
+    @Test
+    void teamIsNotTaken() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        assertFalse(service.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
+        assertFalse(service.teamIsTaken(gameID, ChessGame.TeamColor.WHITE));
+    }
+
+    @Test
+    void invalidID() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        assertFalse(service.invalidID(gameID));
+    }
+
+    @Test
+    void badID() throws ResponseException {
+        service.addGame("test game");
+        service.addUser("John", "Jones");
+        String authToken = service.generateToken("John");
+        String gameID = service.addGame("test game2");
+        assertTrue(service.invalidID("1234"));
+    }
+
+
+
+
+
+
 
 }

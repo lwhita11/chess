@@ -63,13 +63,17 @@ public class MemoryDataAccess implements DataAccess{
 
     public void setBlackTeam(String username, String gameID) {
         Map<String, String> game = gamesMap.get(gameID);
-        game.put("blackUsername", username);
-        gamesMap.put(gameID, game);
+        if (game != null) {
+            game.put("blackUsername", username);
+            gamesMap.put(gameID, game);
+        }
     }
 
     public void setWhiteTeam(String username, String gameID) {
         Map<String, String> game = gamesMap.get(gameID);
-        game.put("whiteUsername", username);
-        gamesMap.put(gameID, game);
+        if (game!= null) {
+            game.put("whiteUsername", username);
+            gamesMap.put(gameID, game);
+        }
     }
 }
