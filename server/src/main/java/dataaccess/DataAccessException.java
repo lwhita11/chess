@@ -1,5 +1,7 @@
 package dataaccess;
 
+import exception.ResponseException;
+
 /**
  * Indicates there was an error connecting to the database
  */

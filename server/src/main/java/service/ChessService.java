@@ -15,7 +15,7 @@ public class ChessService {
     private DataAccess dataAccess;
 
     public ChessService() {
-        this.dataAccess = new MySqlDataAccess();
+        dataAccess = new MySqlDataAccess();
     }
 
     public boolean isValidLogin(String username, String password) {
