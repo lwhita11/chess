@@ -3,6 +3,8 @@ package service;
 import chess.ChessGame;
 import dataaccess.DataAccess;
 import dataaccess.MemoryDataAccess;
+import dataaccess.MySqlDataAccess;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,15 +15,12 @@ public class ChessService {
     private DataAccess dataAccess;
 
     public ChessService() {
-        this.dataAccess = new MemoryDataAccess();
+        this.dataAccess = new MySqlDataAccess();
     }
 
     public boolean isValidLogin(String username, String password) {
-        String dbPassword = dataAccess.getPassword(username);
-        if (password.equals(dbPassword)) {
-            return true;
-        }
-        return false;
+        var dbPassword = dataAccess.getPassword(username); //hashed password
+        return BCrypt.checkpw(password, dbPassword); //Compare clear text password to hashed password from db
     }
 
     public String generateToken(String username) {
@@ -35,7 +34,8 @@ public class ChessService {
     }
 
     public void addUser(String username, String password) {
-        dataAccess.addUser(username, password);
+        String hashedPassword = hashPassword(password);
+        dataAccess.addUser(username, hashedPassword);
     }
 
     public boolean userExists(String username){
@@ -104,5 +104,9 @@ public class ChessService {
             return true;
         }
         return false;
+    }
+
+    private String hashPassword(String clearTextPassword) {
+        return BCrypt.hashpw(clearTextPassword, BCrypt.gensalt());
     }
 }
