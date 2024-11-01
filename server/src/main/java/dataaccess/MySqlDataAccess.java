@@ -73,15 +73,28 @@ public class MySqlDataAccess implements DataAccess{
 
     private final String[] createStatements = {
             """
-            CREATE TABLE IF NOT EXISTS  chess (
-              `id` int NOT NULL AUTO_INCREMENT,
-              `name` varchar(256) NOT NULL,
-              `type` ENUM('CAT', 'DOG', 'FISH', 'FROG', 'ROCK') DEFAULT 'CAT',
+            CREATE TABLE IF NOT EXISTS  chessGames (
+              `gameID` int NOT NULL AUTO_INCREMENT,
+              `gameName` varchar(256) NOT NULL,
+              `whiteUsername` varchar(256) TEXT DEFAULT NULL,
+              `blackUsername` varchar(256) TEXT DEFAULT NULL,
               `json` TEXT DEFAULT NULL,
-              PRIMARY KEY (`id`),
-              INDEX(type),
-              INDEX(name)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+              PRIMARY KEY (`gameID`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            
+            CREATE TABLE IF NOT EXISTS  chessUsers (
+              `username` varchar(256) NOT NULL,
+              `password` varchar(256) NOT NULL,
+              `json` TEXT DEFAULT NULL,
+              PRIMARY KEY (`username`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            
+            CREATE TABLE IF NOT EXISTS  chessAuth (
+              `authToken` int NOT NULL,
+              `username` varchar(256) NOT NULL,
+              `json` TEXT DEFAULT NULL,
+              PRIMARY KEY (`authToken`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
             """
     };
 
