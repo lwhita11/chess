@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DatabaseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/test/java/passoff/server/DatabaseTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +57,7 @@
     "JUnit.ChessBoardTests.pieceMoveAllPieces.executor": "Run",
     "JUnit.ChessMoveTests.executor": "Run",
     "JUnit.ChessPositionTests.executor": "Run",
+    "JUnit.DatabaseTests.executor": "Run",
     "JUnit.FullGameTest.executor": "Run",
     "JUnit.GameStatusTests.executor": "Run",
     "JUnit.KingMoveTests.executor": "Run",
@@ -115,10 +118,15 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -129,8 +137,26 @@
       <recent name="$PROJECT_DIR$/server/src/main/java" />
       <recent name="$PROJECT_DIR$/shared/src/test/java/passoff/chess" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dataaccess" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.ServiceTests">
+  <component name="RunManager" selected="JUnit.DatabaseTests">
+    <configuration name="DatabaseTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.DatabaseTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -142,22 +168,6 @@
       <option name="PACKAGE_NAME" value="service" />
       <option name="MAIN_CLASS_NAME" value="service.ServiceTests" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ServiceTests.badSetBlack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="service" />
-      <option name="MAIN_CLASS_NAME" value="service.ServiceTests" />
-      <option name="METHOD_NAME" value="badSetBlack" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -212,11 +222,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DatabaseTests" />
         <item itemvalue="JUnit.ServiceTests" />
         <item itemvalue="JUnit.ServiceTests.invalidID" />
         <item itemvalue="JUnit.ServiceTests.setWhite" />
         <item itemvalue="JUnit.ServiceTests.badSetWhite" />
-        <item itemvalue="JUnit.ServiceTests.badSetBlack" />
       </list>
     </recent_temporary>
   </component>
@@ -241,6 +251,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
+      <workItem from="1730342846956" duration="15997000" />
     </task>
     <servers />
   </component>
@@ -272,5 +283,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

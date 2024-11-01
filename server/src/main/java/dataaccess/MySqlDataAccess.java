@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessGame;
 import exception.ResponseException;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.sql.*;
+
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
 
 public class MySqlDataAccess implements DataAccess{
@@ -16,22 +19,48 @@ public class MySqlDataAccess implements DataAccess{
             configureDatabase();
         } catch (ResponseException | DataAccessException e) {
             System.err.println("Error configuring database: " + e.getMessage());
-            // Handle the exception, or rethrow a runtime exception if appropriate
-            throw new RuntimeException(e); // This will still stop execution if needed
+            throw new RuntimeException(e);
         }
     }
 
-    public String getPassword(String username){
-        return "";
-        //TODO
+    public String getPassword(String username) {
+        var statement = "SELECT password FROM chessUsers WHERE username = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var ps = conn.prepareStatement(statement)) {
+            ps.setString(1, username);
+
+            try (var rs = ps.executeQuery()) {
+                // Check if there is a result
+                if (rs.next()) {
+                    // Retrieve the password from the result set
+                    return rs.getString("password");
+                } else {
+                    // If no result is found, throw an exception or handle as needed
+                    return null;
+                }
+            }
+
+        } catch (SQLException | DataAccessException e) {
+            return null;
+        }
     }
 
-    public void putToken(String username, String authToken){
-        //TODO
+    public void putToken(String username, String authToken) {
+        var statement = "INSERT INTO chessAuth (authToken, username) VALUES (?, ?)";
+        try {
+            executeUpdate(statement, authToken, username);
+        } catch (ResponseException ex) {
+            return;
+        }
     }
 
-    public void addUser(String username, String password){
-        //TODO
+    public void addUser(String username, String password) {
+        var statement = "INSERT INTO chessUsers (username, password) VALUES (?, ?)";
+        try {
+            executeUpdate(statement, username, password);
+        } catch (ResponseException ex) {
+            return;
+        }
     }
 
     public void clearData(){
@@ -71,28 +100,55 @@ public class MySqlDataAccess implements DataAccess{
         //TODO
     }
 
+    private int executeUpdate(String statement, Object... params) throws ResponseException {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var ps = conn.prepareStatement(statement, RETURN_GENERATED_KEYS)) {
+                for (var i = 0; i < params.length; i++) {
+                    var param = params[i];
+                    if (param instanceof String p) ps.setString(i + 1, p);
+                    else if (param instanceof Integer p) ps.setInt(i + 1, p);
+                    else if (param instanceof ChessGame p) ps.setString(i + 1, p.toString());
+                    else if (param == null) ps.setNull(i + 1, NULL);
+                }
+                ps.executeUpdate();
+
+                var rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+                return 0;
+            }
+        } catch (SQLException e) {
+            throw new ResponseException(500, String.format("unable to update database: %s, %s", statement, e.getMessage()));
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     private final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS  chessGames (
               `gameID` int NOT NULL AUTO_INCREMENT,
               `gameName` varchar(256) NOT NULL,
-              `whiteUsername` varchar(256) TEXT DEFAULT NULL,
-              `blackUsername` varchar(256) TEXT DEFAULT NULL,
+              `whiteUsername` TEXT DEFAULT NULL,
+              `blackUsername` TEXT DEFAULT NULL,
               `json` TEXT DEFAULT NULL,
               PRIMARY KEY (`gameID`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-            
+            """,
+            """
             CREATE TABLE IF NOT EXISTS  chessUsers (
               `username` varchar(256) NOT NULL,
               `password` varchar(256) NOT NULL,
-              `json` TEXT DEFAULT NULL,
               PRIMARY KEY (`username`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-            
+            """,
+            """
             CREATE TABLE IF NOT EXISTS  chessAuth (
               `authToken` int NOT NULL,
               `username` varchar(256) NOT NULL,
-              `json` TEXT DEFAULT NULL,
               PRIMARY KEY (`authToken`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
             """
