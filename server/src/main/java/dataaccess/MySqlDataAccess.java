@@ -75,8 +75,21 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public String getUsername(String authToken){
-        return "";
-        //TODO
+        var statement = "SELECT username FROM chessAuth WHERE authToken = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var ps = conn.prepareStatement(statement)) {
+            ps.setString(1, authToken);
+
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("username");
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException | DataAccessException e) {
+            return null;
+        }
     }
 
     public void deleteToken(String authToken){
