@@ -1,6 +1,7 @@
 package dataaccess;
 
 import chess.ChessGame;
+import com.google.gson.Gson;
 import exception.ResponseException;
 
 import java.util.ArrayList;
@@ -30,12 +31,9 @@ public class MySqlDataAccess implements DataAccess{
             ps.setString(1, username);
 
             try (var rs = ps.executeQuery()) {
-                // Check if there is a result
                 if (rs.next()) {
-                    // Retrieve the password from the result set
                     return rs.getString("password");
                 } else {
-                    // If no result is found, throw an exception or handle as needed
                     return null;
                 }
             }
@@ -81,15 +79,45 @@ public class MySqlDataAccess implements DataAccess{
         //TODO
     }
 
-    public String addGame(String gameName){
-        return "";
-        //TODO
+    public String addGame(String gameName) {
+        ChessGame newGame = new ChessGame();
+        Gson gson = new Gson();
+        String jsonGame = gson.toJson(newGame);
+        var statement = "INSERT INTO chessGames (gameName, whiteUsername, blackUsername, json) VALUES (?, ?, ?, ?);";
+        try{
+            int gameID = executeUpdate(statement, gameName, null, null, jsonGame);
+            return Integer.toString(gameID);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Map<String, String> getGame(String gameID){
         Map<String, String> map = new HashMap<>();
-        return map;
-        //TODO
+
+        var statement = "SELECT json FROM chessGames WHERE gameID = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var ps = conn.prepareStatement(statement)) {
+            ps.setString(1, gameID);
+
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String jsonGame = rs.getString("json");
+                    map.put("gameID", gameID);
+                    map.put("whiteUsername", rs.getString("whiteUsername"));
+                    map.put("blackUsername", rs.getString("blackUsername"));
+                    map.put("gameName", rs.getString("gameName"));
+                    Gson gson = new Gson();
+                    ChessGame chessGame = gson.fromJson(jsonGame, ChessGame.class);
+                    return map;
+                } else {
+                    return null;
+                }
+            }
+
+        } catch (SQLException | DataAccessException e) {
+            return null;
+        }
     }
 
     public void setBlackTeam(String username, String gameID){
