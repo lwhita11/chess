@@ -75,8 +75,25 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public List<Map<String, String>> listGames(){
-        return new ArrayList<>();
-        //TODO
+        List<Map<String, String>> games = new ArrayList<>();
+        var statement = "SELECT * FROM ChessGames";
+        try (var conn = DatabaseManager.getConnection();
+             var ps = conn.prepareStatement(statement)) {
+
+            try (var rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, String> thisGame = new HashMap<>();
+                    thisGame.put("gameID", rs.getString("gameID"));
+                    thisGame.put("whiteUsername", rs.getString("whiteUsername"));
+                    thisGame.put("blackUsername", rs.getString("blackUsername"));
+                    thisGame.put("gameName", rs.getString("gameName"));
+                    games.add(thisGame);
+                }
+                return games;
+            }
+        } catch (SQLException | DataAccessException e) {
+            return null;
+        }
     }
 
     public String addGame(String gameName) {
