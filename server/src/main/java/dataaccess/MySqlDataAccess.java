@@ -62,7 +62,16 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public void clearData(){
-        //TODO
+        var statement1 = "DROP TABLE chessGames";
+        var statement2 = "DROP TABLE chessUsers";
+        var statement3 = "DROP TABLE chessAuth";
+        try {
+            executeUpdate(statement1);
+            executeUpdate(statement2);
+            executeUpdate(statement3);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getUsername(String authToken){
