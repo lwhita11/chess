@@ -20,6 +20,9 @@ public class ChessService {
 
     public boolean isValidLogin(String username, String password) {
         var dbPassword = dataAccess.getPassword(username); //hashed password
+        if (dbPassword == null) {
+            return false;
+        }
         return BCrypt.checkpw(password, dbPassword); //Compare clear text password to hashed password from db
     }
 

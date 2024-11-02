@@ -93,7 +93,12 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public void deleteToken(String authToken){
-        //TODO
+        var statement = "DELETE FROM chessAuth WHERE authToken =?";
+        try {
+            executeUpdate(statement, authToken);
+        } catch (ResponseException e) {
+            System.err.println("Failed to delete token: " + e.getMessage());
+        }
     }
 
     public List<Map<String, String>> listGames(){
@@ -214,7 +219,7 @@ public class MySqlDataAccess implements DataAccess{
             """,
             """
             CREATE TABLE IF NOT EXISTS  chessAuth (
-              `authToken` int NOT NULL,
+              `authToken` varchar(256) NOT NULL,
               `username` varchar(256) NOT NULL,
               PRIMARY KEY (`authToken`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
