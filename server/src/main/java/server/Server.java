@@ -142,11 +142,11 @@ public class Server {
         }
         if (playerColor == null || gameID == null) {
             res.status(400);
-            return new Gson().toJson(Map.of("message", "Error: bad request"));
+            return new Gson().toJson(Map.of("message", "Error: playerColor or gameID is null; bad request"));
         }
         if (service.invalidID(gameID)) {
             res.status(400);
-            return new Gson().toJson(Map.of("message", "Error: bad request"));
+            return new Gson().toJson(Map.of("message", "Error: Invalid GameID; bad request"));
         }
         if (service.teamIsTaken(gameID, playerColor)){
             res.status(403);

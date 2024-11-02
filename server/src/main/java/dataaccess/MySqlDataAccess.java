@@ -57,7 +57,7 @@ public class MySqlDataAccess implements DataAccess{
         try {
             executeUpdate(statement, username, password);
         } catch (ResponseException ex) {
-            return;
+            System.err.println("Error adding user: " + ex.getMessage());
         }
     }
 
@@ -69,7 +69,8 @@ public class MySqlDataAccess implements DataAccess{
             executeUpdate(statement1);
             executeUpdate(statement2);
             executeUpdate(statement3);
-        } catch (ResponseException e) {
+            configureDatabase();
+        } catch (ResponseException | DataAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -103,7 +104,7 @@ public class MySqlDataAccess implements DataAccess{
 
     public List<Map<String, String>> listGames(){
         List<Map<String, String>> games = new ArrayList<>();
-        var statement = "SELECT * FROM ChessGames";
+        var statement = "SELECT * FROM chessGames";
         try (var conn = DatabaseManager.getConnection();
              var ps = conn.prepareStatement(statement)) {
 
@@ -137,12 +138,13 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public Map<String, String> getGame(String gameID){
+        int gameInt = Integer.parseInt(gameID);
         Map<String, String> map = new HashMap<>();
 
-        var statement = "SELECT json FROM chessGames WHERE gameID = ?";
+        var statement = "SELECT gameID, gameName, whiteUsername, blackUsername, json FROM chessGames WHERE gameID = ?";
         try (var conn = DatabaseManager.getConnection();
              var ps = conn.prepareStatement(statement)) {
-            ps.setString(1, gameID);
+            ps.setInt(1, gameInt);
 
             try (var rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -165,11 +167,23 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public void setBlackTeam(String username, String gameID){
-        //TODO
+        var statement = "UPDATE chessGames SET blackUsername = ? WHERE gameID = ?";
+        int gameInt = Integer.parseInt(gameID);
+        try {
+            executeUpdate(statement, username, gameInt);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setWhiteTeam(String username, String gameID){
-        //TODO
+        var statement = "UPDATE chessGames SET whiteUsername = ? WHERE gameID = ?";
+        int gameInt = Integer.parseInt(gameID);
+        try {
+            executeUpdate(statement, username, gameInt);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private int executeUpdate(String statement, Object... params) throws ResponseException {
