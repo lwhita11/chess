@@ -138,6 +138,9 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public Map<String, String> getGame(String gameID){
+        if (gameID == null){
+            return null;
+        }
         int gameInt = Integer.parseInt(gameID);
         Map<String, String> map = new HashMap<>();
 

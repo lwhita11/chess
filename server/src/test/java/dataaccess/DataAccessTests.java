@@ -9,6 +9,7 @@ import service.ChessService;
 
 import java.lang.reflect.Method;
 import java.sql.*;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,6 +97,41 @@ public class DataAccessTests {
         DATA_ACCESS.deleteToken("NotAToken");
         String username2 = DATA_ACCESS.getUsername("Token");
         assertEquals(username2, username);
+    }
+
+    @Test
+    void addGame() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame("testGame");
+        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        assertEquals(game.get("gameID"), gameID);
+    }
+
+    @Test
+    void addNullGame() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame(null);
+        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        assertNull(gameID);
+        assertNull(game);
+    }
+
+    @Test
+    void getGame() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame("NewGame");
+        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        assertEquals("NewGame", game.get("gameName"));
+    }
+
+    @Test
+    void getBadGame() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame("MyGame");
+        assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
+    }
+
+
+
+    @Test
+    void listGames() throws ResponseException {
+
     }
 
 
