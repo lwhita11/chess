@@ -9,6 +9,8 @@ import service.ChessService;
 
 import java.lang.reflect.Method;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -127,11 +129,62 @@ public class DataAccessTests {
         assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
     }
 
-
-
     @Test
     void listGames() throws ResponseException {
+        String gameID1 = DATA_ACCESS.addGame("game1");
+        String gameID2 = DATA_ACCESS.addGame("game2");
+        List<Map<String, String>> games = DATA_ACCESS.listGames();
+        List<Map<String, String>> expectedGames = new ArrayList<>();
+        expectedGames.add(DATA_ACCESS.getGame(gameID1));
+        expectedGames.add(DATA_ACCESS.getGame(gameID2));
+        assertEquals(games, expectedGames);
+    }
 
+    @Test
+    void listBadGames() throws ResponseException {
+        String gameID1 = DATA_ACCESS.addGame(null);
+        String gameID2 = DATA_ACCESS.addGame("game1");
+        List<Map<String, String>> games = DATA_ACCESS.listGames();
+        List<Map<String, String>> expectedGames = new ArrayList<>();
+        expectedGames.add(DATA_ACCESS.getGame(gameID1));
+        expectedGames.add(DATA_ACCESS.getGame(gameID2));
+        assertNotEquals(games, expectedGames);
+        expectedGames.remove(null);
+        assertEquals(games, expectedGames);
+    }
+
+    @Test
+    void setBlackUsername() throws ResponseException {
+    String gameID1 = DATA_ACCESS.addGame("game1");
+    DATA_ACCESS.setBlackTeam("Test", gameID1);
+    Map<String, String> game1 = DATA_ACCESS.getGame(gameID1);
+    assertEquals(game1.get("blackUsername"), "Test");
+    }
+
+    @Test
+    void setBadBlackUsername() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame("NewGame");
+        assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
+        DATA_ACCESS.setBlackTeam("Test", "88"); //different ID number
+        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        assertNotEquals(game.get("blackUsername"), "Test");
+    }
+
+    @Test
+    void setWhiteUsername() throws ResponseException {
+        String gameID1 = DATA_ACCESS.addGame("game");
+        DATA_ACCESS.setWhiteTeam("Test", gameID1);
+        Map<String, String> game1 = DATA_ACCESS.getGame(gameID1);
+        assertEquals(game1.get("whiteUsername"), "Test");
+    }
+
+    @Test
+    void setBadWhiteUsername() throws ResponseException {
+        String gameID = DATA_ACCESS.addGame("Game1");
+        assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
+        DATA_ACCESS.setWhiteTeam("Test", "88"); //different ID number
+        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        assertNotEquals(game.get("whiteUsername"), "Test");
     }
 
 

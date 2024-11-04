@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/DataAccessTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/DataAccessTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,8 +62,13 @@
     "JUnit.DataAccessTests.getGame.executor": "Run",
     "JUnit.DataAccessTests.getPassword.executor": "Run",
     "JUnit.DataAccessTests.getPasswordBadUsername.executor": "Run",
+    "JUnit.DataAccessTests.listBadGames.executor": "Run",
+    "JUnit.DataAccessTests.listGames.executor": "Run",
     "JUnit.DataAccessTests.putBadToken.executor": "Run",
     "JUnit.DataAccessTests.putToken.executor": "Run",
+    "JUnit.DataAccessTests.setBadBlackUsername.executor": "Run",
+    "JUnit.DataAccessTests.setBadWhiteUsername.executor": "Run",
+    "JUnit.DataAccessTests.setBlackUsername.executor": "Run",
     "JUnit.DatabaseTests.executor": "Run",
     "JUnit.DatabaseTests.persistenceTest.executor": "Run",
     "JUnit.FullGameTest.executor": "Run",
@@ -151,8 +155,16 @@
       <recent name="dataaccess" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DataAccessTests.getBadGame">
-    <configuration name="DataAccessTests.addGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in server">
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataAccessTests.setBadBlackUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -162,13 +174,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="dataaccess" />
       <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="addGame" />
+      <option name="METHOD_NAME" value="setBadBlackUsername" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataAccessTests.addNullGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataAccessTests.setBadWhiteUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -178,13 +190,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="dataaccess" />
       <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="addNullGame" />
+      <option name="METHOD_NAME" value="setBadWhiteUsername" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataAccessTests.getBadGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataAccessTests.setBlackUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -194,13 +206,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="dataaccess" />
       <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="getBadGame" />
+      <option name="METHOD_NAME" value="setBlackUsername" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataAccessTests.getGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataAccessTests.setWhiteUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -210,23 +222,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="dataaccess" />
       <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="getGame" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DataAccessTests.putBadToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="putBadToken" />
+      <option name="METHOD_NAME" value="setWhiteUsername" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -234,11 +230,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DataAccessTests.getBadGame" />
-        <item itemvalue="JUnit.DataAccessTests.getGame" />
-        <item itemvalue="JUnit.DataAccessTests.addNullGame" />
-        <item itemvalue="JUnit.DataAccessTests.addGame" />
-        <item itemvalue="JUnit.DataAccessTests.putBadToken" />
+        <item itemvalue="JUnit.All in server" />
+        <item itemvalue="JUnit.DataAccessTests.setWhiteUsername" />
+        <item itemvalue="JUnit.DataAccessTests.setBadWhiteUsername" />
+        <item itemvalue="JUnit.DataAccessTests.setBadBlackUsername" />
+        <item itemvalue="JUnit.DataAccessTests.setBlackUsername" />
       </list>
     </recent_temporary>
   </component>
@@ -263,7 +259,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="38176000" />
+      <workItem from="1730342846956" duration="40493000" />
     </task>
     <servers />
   </component>
