@@ -151,31 +151,25 @@
       <recent name="$PROJECT_DIR$/server/src/main/resources" />
       <recent name="$PROJECT_DIR$/server/src/test/java/passoff/server" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/main/java/server" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="dataaccess" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="client" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataAccessTests.setBadBlackUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="setBadBlackUsername" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -229,11 +223,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ServerFacadeTests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.DataAccessTests.setWhiteUsername" />
         <item itemvalue="JUnit.DataAccessTests.setBadWhiteUsername" />
-        <item itemvalue="JUnit.DataAccessTests.setBadBlackUsername" />
       </list>
     </recent_temporary>
   </component>
@@ -258,7 +252,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="43442000" />
+      <workItem from="1730342846956" duration="51855000" />
     </task>
     <servers />
   </component>
