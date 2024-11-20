@@ -81,6 +81,20 @@ public class ServerFacade {
         return response.getGames();
     }
 
+    public String createGame(String gameName, String authToken) throws ResponseException {
+        var path = "/game";
+        Map<String, String> headers = Map.of("authorization", authToken);
+        Map<String, String> requestBody = Map.of("gameName", gameName);
+        return this.makeRequest("POST", path, requestBody, String.class, headers);
+    }
+
+    public void joinGame (String gameID, String authToken) throws ResponseException {
+        var path = "/game";
+        Map<String, String> headers = Map.of("authorization", authToken);
+        Map<String, String> requestBody = Map.of("gameName", gameID);
+        this.makeRequest("PUT", path, requestBody, null, headers);
+    }
+
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Map<String, String> headers) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
