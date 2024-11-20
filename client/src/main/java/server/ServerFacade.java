@@ -32,6 +32,18 @@ public class ServerFacade {
         }
     }
 
+    public static class GamesResponse {
+        private List<Map<String, String>> games;
+
+        public List<Map<String, String>> getGames() {
+            return games;
+        }
+
+        public void setGames(List<Map<String, String>> games) {
+            this.games = games;
+        }
+    }
+
     private final String serverUrl;
 
     public ServerFacade(String url) {
@@ -62,13 +74,12 @@ public class ServerFacade {
         this.makeRequest("DELETE", path, null, null, headers);
     }
 
-//    public List[] listGames() throws ResponseException {
-//        var path = "/game";
-//        record listPetResponse(Pet[] pet) {
-//        }
-//        var response = this.makeRequest("GET", path, null, listPetResponse.class);
-//        return response.pet();
-//    }
+    public List<Map<String, String>> listGames(String authToken) throws ResponseException {
+        var path = "/game";
+        Map<String, String> headers = Map.of("authorization", authToken);
+        GamesResponse response = this.makeRequest("GET", path, null, GamesResponse.class, headers);
+        return response.getGames();
+    }
 
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Map<String, String> headers) throws ResponseException {
         try {
