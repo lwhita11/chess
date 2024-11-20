@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/dataaccess/DataAccessTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/dataaccess/DataAccessTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +44,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in server.executor": "Run",
     "JUnit.BishopMoveTests.bishopMoveUntilEdge.executor": "Run",
     "JUnit.BishopMoveTests.executor": "Run",
     "JUnit.CastlingTests.castleWhite.executor": "Debug",
@@ -69,6 +67,7 @@
     "JUnit.DataAccessTests.setBadBlackUsername.executor": "Run",
     "JUnit.DataAccessTests.setBadWhiteUsername.executor": "Run",
     "JUnit.DataAccessTests.setBlackUsername.executor": "Run",
+    "JUnit.DataAccessTests.setWhiteUsername.executor": "Run",
     "JUnit.DatabaseTests.executor": "Run",
     "JUnit.DatabaseTests.persistenceTest.executor": "Run",
     "JUnit.FullGameTest.executor": "Run",
@@ -98,6 +97,7 @@
     "JUnit.QueenMoveTests.executor": "Run",
     "JUnit.RookMoveTests.executor": "Run",
     "JUnit.RookMoveTests.rookMoveUntilEdge.executor": "Run",
+    "JUnit.ServerFacadeTests.executor": "Run",
     "JUnit.ServiceTests.addGame.executor": "Run",
     "JUnit.ServiceTests.badSetBlack.executor": "Run",
     "JUnit.ServiceTests.badSetWhite.executor": "Run",
@@ -125,7 +125,7 @@
     "extract.method.default.visibility": "private",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/landonwhitaker/Documents/CS 240/chess/server/src/main/resources",
+    "last_opened_file_path": "/Users/landonwhitaker/Documents/CS 240/chess/client/src/test/java/client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -145,17 +145,17 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/test/java/client" />
+      <recent name="$PROJECT_DIR$/client/src/main/java/ui" />
+      <recent name="$PROJECT_DIR$/client/src/main/java" />
       <recent name="$PROJECT_DIR$/server/src/main/resources" />
       <recent name="$PROJECT_DIR$/server/src/test/java/passoff/server" />
-      <recent name="$PROJECT_DIR$/server/src/main/java/dataaccess" />
-      <recent name="$PROJECT_DIR$/server/src/main/java" />
-      <recent name="$PROJECT_DIR$/shared/src/test/java/passoff/chess" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="dataaccess" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -196,22 +196,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataAccessTests.setBlackUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="dataaccess.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="dataaccess" />
-      <option name="MAIN_CLASS_NAME" value="dataaccess.DataAccessTests" />
-      <option name="METHOD_NAME" value="setBlackUsername" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DataAccessTests.setWhiteUsername" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -228,13 +212,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServerFacadeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="client" />
+      <option name="MAIN_CLASS_NAME" value="client.ServerFacadeTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ServerFacadeTests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.DataAccessTests.setWhiteUsername" />
         <item itemvalue="JUnit.DataAccessTests.setBadWhiteUsername" />
         <item itemvalue="JUnit.DataAccessTests.setBadBlackUsername" />
-        <item itemvalue="JUnit.DataAccessTests.setBlackUsername" />
       </list>
     </recent_temporary>
   </component>
@@ -259,7 +258,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="40493000" />
+      <workItem from="1730342846956" duration="43442000" />
     </task>
     <servers />
   </component>
