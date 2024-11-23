@@ -36,10 +36,24 @@ public class ChessClient {
     }
 
     public String register(String... params) throws ResponseException {
-        return "";
+        if (state != State.SIGNEDOUT){
+            throw new ResponseException(400, "Invalid command");
+        }
+        if (params.length == 3) {
+            username = params[0];
+            String password = params[1];
+            String email = params[2];
+            server.registerUser(username, password, email);
+            state = State.SIGNEDIN;
+            return String.format("Successfully registered %s.", username);
+        }
+        throw new ResponseException(400, "Expected: <username> <password> <email>");
     }
 
     public String login(String... params) throws ResponseException {
+        if (state != State.SIGNEDOUT){
+            throw new ResponseException(400, "Invalid command");
+        }
         if (params.length == 2) {
             username = params[0];
             String password = params[1];
@@ -50,6 +64,8 @@ public class ChessClient {
         throw new ResponseException(400, "Expected: <username> <password>");
     }
 
+    // public String logout()
+
     public String help() {
         String description = EscapeSequences.SET_TEXT_COLOR_MAGENTA;
         String option = EscapeSequences.SET_TEXT_COLOR_BLUE;
@@ -57,6 +73,14 @@ public class ChessClient {
             return option + "register <USERNAME> <PASSWORD> <EMAIL>" + description + " - to create an account\n" +
                     option + "login <USERNAME> <PASSWORD>" + description + " - to login to an existing account\n" +
                     option + "quit" + description + " - quit playing chess\n" +
+                    option + "help" + description + " - list commands";
+        }
+        else if (state == State.SIGNEDIN) {
+            return option + "logout" + description + " - to logout of your account\n" +
+                    option + "create <GAMENAME>" + description + " - create a new Chess game\n" +
+                    option + "listgames" + description + " - lists all chess games\n" +
+                    option + "join <GAMENUMBER> [WHITE|BLACK]" + description + " - join a Chess Game as White or Black\n" +
+                    option + "observe <GAMENUMBER>" + description + " - lists all chess games\n" +
                     option + "help" + description + " - list commands";
         }
         else {
