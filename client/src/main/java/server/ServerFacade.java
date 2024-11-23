@@ -14,7 +14,6 @@ public class ServerFacade {
         private String authToken;
         private String username;
 
-        // Getters and setters
         public String getAuthToken() {
             return authToken;
         }
