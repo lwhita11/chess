@@ -10,6 +10,7 @@ public class ChessClient {
     private final ServerFacade server;
     private final String serverUrl;
     private State state = State.SIGNEDOUT;
+    private String authToken;
 
 
     public ChessClient(String serverUrl, Repl repl) {
@@ -26,8 +27,9 @@ public class ChessClient {
                 case "register" -> register(params);
                 case "login" -> login(params);
                 // case "list" -> listGames();
-                // case "signout" -> signOut();
+                case "logout" -> logout();
                 case "quit" -> "quit";
+                case "create" -> createGame(params);
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -43,7 +45,7 @@ public class ChessClient {
             username = params[0];
             String password = params[1];
             String email = params[2];
-            server.registerUser(username, password, email);
+            authToken = server.registerUser(username, password, email).getAuthToken();
             state = State.SIGNEDIN;
             return String.format("Successfully registered %s.", username);
         }
@@ -57,14 +59,33 @@ public class ChessClient {
         if (params.length == 2) {
             username = params[0];
             String password = params[1];
-            server.login(username, password);
+            authToken = server.login(username, password).getAuthToken();
             state = State.SIGNEDIN;
             return String.format("You signed in as %s.", username);
         }
         throw new ResponseException(400, "Expected: <username> <password>");
     }
 
-    // public String logout()
+    public String logout() throws ResponseException {
+        if (state != State.SIGNEDOUT){
+            throw new ResponseException(400, "Invalid command");
+        }
+        server.logout(authToken);
+        state = State.SIGNEDOUT;
+        return ("You successfully logged out");
+    }
+
+    public String createGame(String... params) throws ResponseException {
+        if (state != State.SIGNEDIN) {
+            throw new ResponseException(400, "Invalid command");
+        }
+        if (params.length == 1) {
+            String gameName = params[0];
+            String gameID = server.createGame(gameName, authToken);
+            return String.format("You created game: %s with ID: %s", gameName, gameID);
+        }
+        throw new ResponseException(400, "Expected: <GAMENAME>");
+    }
 
     public String help() {
         String description = EscapeSequences.SET_TEXT_COLOR_MAGENTA;

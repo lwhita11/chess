@@ -43,6 +43,18 @@ public class ServerFacade {
         }
     }
 
+    public static class SingleGameResponse {
+        private String gameID;
+
+        public String getGameID() {
+            return gameID;
+        }
+
+        public void setGameID(String gameID) {
+            this.gameID = gameID;
+        }
+    }
+
     private final String serverUrl;
 
     public ServerFacade(String url) {
@@ -84,7 +96,8 @@ public class ServerFacade {
         var path = "/game";
         Map<String, String> headers = Map.of("authorization", authToken);
         Map<String, String> requestBody = Map.of("gameName", gameName);
-        return this.makeRequest("POST", path, requestBody, String.class, headers);
+        SingleGameResponse response = this.makeRequest("POST", path, requestBody, SingleGameResponse.class, headers);
+        return response.getGameID();
     }
 
     public void joinGame (String gameID, String authToken) throws ResponseException {
