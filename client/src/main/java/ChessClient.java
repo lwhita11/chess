@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import exception.ResponseException;
 import server.ServerFacade;
@@ -26,7 +28,7 @@ public class ChessClient {
             return switch (cmd) {
                 case "register" -> register(params);
                 case "login" -> login(params);
-                // case "list" -> listGames();
+                case "list" -> listGames();
                 case "logout" -> logout();
                 case "quit" -> "quit";
                 case "create" -> createGame(params);
@@ -85,6 +87,19 @@ public class ChessClient {
             return String.format("You created game: %s with ID: %s", gameName, gameID);
         }
         throw new ResponseException(400, "Expected: <GAMENAME>");
+    }
+
+    public String listGames() throws ResponseException {
+        if (state != State.SIGNEDIN) {
+            throw new ResponseException(400, "Invalid command");
+        }
+        List<Map<String, String>> games = server.listGames(authToken);
+        String response = String.format("%-10s %-5s%n\n", "GameName", "GameID");
+        for (int i = 0; i < games.size(); i++) {
+            response = String.format(response + "%-10s %-5s%n", games.get(i).get("gameName"),
+                    games.get(i).get("gameID"));
+        }
+        return response;
     }
 
     public String help() {
