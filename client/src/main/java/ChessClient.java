@@ -37,6 +37,7 @@ public class ChessClient {
                 case "quit" -> "quit";
                 case "create" -> createGame(params);
                 case "join" -> joinGame(params);
+                case "observe" -> observeGame(params);
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -152,7 +153,6 @@ public class ChessClient {
             }
             ChessGame game = server.joinGame(gameID, teamColor, authToken);
             System.out.println(game.getBoard().toString());
-            state = State.JOINEDGAME;
             if (teamColor == ChessGame.TeamColor.BLACK) {
                 return boardToStringBlack(game.getBoard());
             }
@@ -161,6 +161,38 @@ public class ChessClient {
             }
         }
         throw new ResponseException(400, "Expected: <GAMENUMBER> [BLACK|WHITE]");
+    }
+
+    public String observeGame(String... params) throws ResponseException {
+        if (state != State.SIGNEDIN){
+            throw new ResponseException(400, "Invalid command");
+        }
+        ChessGame thisGame;
+        if (params.length == 1) {
+            String gameNumber = params[0];
+            if (gameList == null || gameList.isEmpty()) {
+                throw new ResponseException(400, "No games available to join. Please list games or create game first.");
+            }
+            int gameIndex;
+            try {
+                gameIndex = Integer.parseInt(gameNumber) - 1;
+            } catch (NumberFormatException e) {
+                throw new ResponseException(400, "Invalid game number format.");
+            }
+            Map<String, Object> gameMap = gameList.get(gameIndex);
+            if (gameMap == null) {
+                throw new ResponseException(500, "Game number not found for the selected game. List available " +
+                        "games or create a new game");
+            }
+            String gameID = (String) gameMap.get(gameNumber);
+            if (gameID == null) {
+                throw new ResponseException(500, "Game ID not found for the selected game.");
+            }
+            thisGame = server.observeGame(gameID, authToken);
+            ChessBoard thisBoard = thisGame.getBoard();
+            return boardToStringWhite(thisBoard);
+        }
+        throw new ResponseException(400, "Expected: observe <GAMENUMBER>");
     }
 
     private String boardToStringBlack(ChessBoard board) {
@@ -292,7 +324,7 @@ public class ChessClient {
                     option + "help" + description + " - list commands";
         }
         else {
-            return "TODO (other states)";
+            return "unexpected state";
         }
     }
 }

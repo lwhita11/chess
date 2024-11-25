@@ -131,7 +131,17 @@ public class Server {
         return new Gson().toJson(response);
     }
 
+    private Object observeGame(Request req, Response res) {
+        Map<String, String> observeGameData = new Gson().fromJson(req.body(), HashMap.class);
+        String gameID = observeGameData.get("gameID");
+        ChessGame game = service.getGame(gameID);
+        Map<String, Object> response = new HashMap<>();
+        response.put("chessGame", game);
+        return new Gson().toJson(response);
+    }
+
     private Object joinGame(Request req, Response res) {
+        System.out.println("in Chess Server");
         JoinGame joinGameData = new Gson().fromJson(req.body(), JoinGame.class);
         ChessGame.TeamColor playerColor = joinGameData.playerColor();
         String gameID = joinGameData.gameID();
@@ -141,13 +151,19 @@ public class Server {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
         }
-        if (playerColor == null || gameID == null) {
+        if (gameID == null || playerColor == null) {
             res.status(400);
-            return new Gson().toJson(Map.of("message", "Error: playerColor or gameID is null; bad request"));
+            return new Gson().toJson(Map.of("message", "Error: gameID or playerColor is null; bad request"));
         }
         if (service.invalidID(gameID)) {
             res.status(400);
             return new Gson().toJson(Map.of("message", "Error: Invalid GameID; bad request"));
+        }
+        if (playerColor == ChessGame.TeamColor.NEITHER) {
+            game = service.getGame(gameID);
+            Map<String, Object> response = new HashMap<>();
+            response.put("chessGame", game);
+            return new Gson().toJson(response);
         }
         if (service.teamIsTaken(gameID, playerColor)){
             res.status(403);

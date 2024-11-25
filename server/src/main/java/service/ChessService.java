@@ -90,6 +90,11 @@ public class ChessService {
         return true;
     }
 
+    public ChessGame getGame(String gameID) {
+        System.out.println("In Chess Service");
+        return (ChessGame) dataAccess.getGame(gameID).get("chessGame");
+    }
+
     public ChessGame setWhiteTeam(String authToken, String gameID) {
         if (!teamIsTaken(gameID, ChessGame.TeamColor.WHITE)) {
             String username = dataAccess.getUsername(authToken);

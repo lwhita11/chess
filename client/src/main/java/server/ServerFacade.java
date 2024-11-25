@@ -119,6 +119,13 @@ public class ServerFacade {
         return this.makeRequest("PUT", path, requestBody, ChessGame.class, headers);
     }
 
+    public ChessGame observeGame (String gameID, String authToken) throws ResponseException {
+        var path = "/game";
+        Map<String, String> headers = Map.of("authorization", authToken);
+        Map<String, Object> requestBody = Map.of("gameID", gameID, "playerColor", ChessGame.TeamColor.NEITHER);
+        return this.makeRequest("PUT", path, requestBody, ChessGame.class, headers);
+    }
+
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Map<String, String> headers) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
