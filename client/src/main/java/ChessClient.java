@@ -1,6 +1,9 @@
 import java.util.*;
 
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessPiece;
+import chess.ChessPosition;
 import exception.ResponseException;
 import server.ServerFacade;
 import ui.EscapeSequences;
@@ -136,19 +139,113 @@ public class ChessClient {
             if (gameIndex < 0 || gameIndex >= gameList.size()) {
                 throw new ResponseException(400, "Game number out of range.");
             }
-
             Map<String, Object> gameMap = gameList.get(gameIndex);
+            if (gameMap == null) {
+                throw new ResponseException(500, "Game number not found for the selected game. List available " +
+                        "games or create a new game");
+            }
             String gameID = (String) gameMap.get(gameNumber);
             if (gameID == null) {
                 throw new ResponseException(500, "Game ID not found for the selected game.");
             }
-
-            System.out.println(gameID);
             ChessGame game = server.joinGame(gameID, teamColor, authToken);
             System.out.println(game.getBoard().toString());
-            return String.format("You joined game %s ", gameNumber);
+            state = State.JOINEDGAME;
+            if (teamColor == ChessGame.TeamColor.BLACK) {
+                return boardToStringBlack(game.getBoard());
+            }
+            else {
+                return String.format("You joined game %s ", gameNumber);
+            }
         }
         throw new ResponseException(400, "Expected: <GAMENUMBER> [BLACK|WHITE]");
+    }
+
+    private String boardToStringBlack(ChessBoard board) {
+        String row = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK +
+                "\t h\t g\t f\t e\t d\t c\t b\t a\t\t " + EscapeSequences.RESET_BG_COLOR + "\n";
+        List<String> rows = new ArrayList<>();
+        String row1 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "1\t";
+        String row2 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "2\t";
+        String row3 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "3\t";
+        String row4 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "4\t";
+        String row5 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "5\t";
+        String row6 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "6\t";
+        String row7 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "7\t";
+        String row8 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "8\t";
+
+        String result = row;
+
+        rows.add(row1);rows.add(row2);rows.add(row3);rows.add(row4);rows.add(row5);rows.add(row6);rows.add(row7);
+        rows.add(row8);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                String background;
+                ChessPosition currPos = new ChessPosition(i+1, j+1);
+                ChessPiece currPiece = board.getPiece(currPos);
+                if ((i + j) % 2 == 0){
+                    background = EscapeSequences.SET_BG_COLOR_DARK_GREEN;
+                }
+                else {
+                    background = EscapeSequences.SET_BG_COLOR_WHITE;
+                }
+                if (currPiece == null) {
+                    rows.set(i, rows.get(i) + background + "\t");
+                    continue;
+                }
+                ChessGame.TeamColor pieceColor = currPiece.getTeamColor();
+                if (pieceColor == ChessGame.TeamColor.BLACK) {
+                    switch(currPiece.getPieceType()){
+                        case ChessPiece.PieceType.PAWN:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_PAWN + "\t");
+                            break;
+                        case ChessPiece.PieceType.ROOK:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_ROOK + "\t");
+                            break;
+                        case ChessPiece.PieceType.KNIGHT:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_KNIGHT + "\t");
+                            break;
+                        case ChessPiece.PieceType.BISHOP:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_BISHOP + "\t");
+                            break;
+                        case ChessPiece.PieceType.KING:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_KING + "\t");
+                            break;
+                        case ChessPiece.PieceType.QUEEN:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_QUEEN + "\t");
+                            break;
+                    }
+                }
+
+                if (pieceColor == ChessGame.TeamColor.WHITE) {
+                    switch(currPiece.getPieceType()){
+                        case ChessPiece.PieceType.PAWN:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_PAWN + "\t");
+                            break;
+                        case ChessPiece.PieceType.ROOK:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_ROOK + "\t");
+                            break;
+                        case ChessPiece.PieceType.KNIGHT:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_KNIGHT + "\t");
+                            break;
+                        case ChessPiece.PieceType.BISHOP:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_BISHOP + "\t");
+                            break;
+                        case ChessPiece.PieceType.KING:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_KING + "\t");
+                            break;
+                        case ChessPiece.PieceType.QUEEN:
+                            rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_QUEEN + "\t");
+                            break;
+                    }
+                }
+
+            }
+            result = result + rows.get(i) + EscapeSequences.SET_BG_COLOR_LIGHT_GREY + "\t" + Integer.toString(i + 1)
+                    + EscapeSequences.RESET_BG_COLOR + "\n";
+        }
+        return result + row + EscapeSequences.RESET_BG_COLOR;
     }
 
     public String help() {
@@ -164,7 +261,8 @@ public class ChessClient {
             return option + "logout" + description + " - to logout of your account\n" +
                     option + "create <GAMENAME>" + description + " - create a new Chess game\n" +
                     option + "listgames" + description + " - lists all chess games\n" +
-                    option + "join <GAMENUMBER> [WHITE|BLACK]" + description + " - join a Chess Game as White or Black\n" +
+                    option + "join <GAMENUMBER> [WHITE|BLACK]" + description + " - join a Chess Game as White " +
+                    "or Black\n" +
                     option + "observe <GAMENUMBER>" + description + " - lists all chess games\n" +
                     option + "help" + description + " - list commands";
         }
