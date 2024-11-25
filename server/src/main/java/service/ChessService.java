@@ -64,7 +64,7 @@ public class ChessService {
         dataAccess.deleteToken(authToken);
     }
 
-    public List<Map<String, String>> listGames(){
+    public List<Map<String, Object>> listGames(){
         return dataAccess.listGames();
     }
 
@@ -73,7 +73,7 @@ public class ChessService {
     }
 
     public boolean teamIsTaken(String gameID, ChessGame.TeamColor playerColor) {
-        Map<String, String> game = dataAccess.getGame(gameID);
+        Map<String, Object> game = dataAccess.getGame(gameID);
         if (game == null) {
             return true;
         }
@@ -90,17 +90,20 @@ public class ChessService {
         return true;
     }
 
-    public void setWhiteTeam(String authToken, String gameID) {
+    public ChessGame setWhiteTeam(String authToken, String gameID) {
         if (!teamIsTaken(gameID, ChessGame.TeamColor.WHITE)) {
             String username = dataAccess.getUsername(authToken);
             dataAccess.setWhiteTeam(username, gameID);
         }
+        return (ChessGame) dataAccess.getGame(gameID).get("chessGame");
     }
-    public void setBlackTeam(String authToken, String gameID) {
+    public Object setBlackTeam(String authToken, String gameID) {
         if (!teamIsTaken(gameID, ChessGame.TeamColor.BLACK)) {
             String username = dataAccess.getUsername(authToken);
             dataAccess.setBlackTeam(username, gameID);
         }
+        ChessGame chessGame = (ChessGame) dataAccess.getGame(gameID).get("chessGame");
+        return chessGame;
     }
 
     public boolean invalidID(String gameID) {

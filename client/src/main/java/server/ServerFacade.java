@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import exception.ResponseException;
 
@@ -31,14 +32,25 @@ public class ServerFacade {
         }
     }
 
-    public static class GamesResponse {
-        private List<Map<String, String>> games;
+    public static class JoinGameResponse {
+        private ChessGame game;
 
-        public List<Map<String, String>> getGames() {
+        public ChessGame getGame() {
+            return game;
+        }
+        public void setGame(ChessGame game) {
+            this.game = game;
+        }
+    }
+
+    public static class GamesResponse {
+        private List<Map<String, Object>> games;
+
+        public List<Map<String, Object>> getGames() {
             return games;
         }
 
-        public void setGames(List<Map<String, String>> games) {
+        public void setGames(List<Map<String, Object>> games) {
             this.games = games;
         }
     }
@@ -85,7 +97,7 @@ public class ServerFacade {
         this.makeRequest("DELETE", path, null, null, headers);
     }
 
-    public List<Map<String, String>> listGames(String authToken) throws ResponseException {
+    public List<Map<String, Object>> listGames(String authToken) throws ResponseException {
         var path = "/game";
         Map<String, String> headers = Map.of("authorization", authToken);
         GamesResponse response = this.makeRequest("GET", path, null, GamesResponse.class, headers);
@@ -100,11 +112,11 @@ public class ServerFacade {
         return response.getGameID();
     }
 
-    public void joinGame (String gameID, String authToken) throws ResponseException {
+    public ChessGame joinGame (String gameID, ChessGame.TeamColor teamColor, String authToken) throws ResponseException {
         var path = "/game";
         Map<String, String> headers = Map.of("authorization", authToken);
-        Map<String, String> requestBody = Map.of("gameName", gameID);
-        this.makeRequest("PUT", path, requestBody, null, headers);
+        Map<String, Object> requestBody = Map.of("gameID", gameID, "playerColor", teamColor);
+        return this.makeRequest("PUT", path, requestBody, ChessGame.class, headers);
     }
 
     private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Map<String, String> headers) throws ResponseException {

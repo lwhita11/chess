@@ -102,15 +102,15 @@ public class MySqlDataAccess implements DataAccess{
         }
     }
 
-    public List<Map<String, String>> listGames(){
-        List<Map<String, String>> games = new ArrayList<>();
+    public List<Map<String, Object>> listGames(){
+        List<Map<String, Object>> games = new ArrayList<>();
         var statement = "SELECT * FROM chessGames";
         try (var conn = DatabaseManager.getConnection();
              var ps = conn.prepareStatement(statement)) {
 
             try (var rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Map<String, String> thisGame = new HashMap<>();
+                    Map<String, Object> thisGame = new HashMap<>();
                     thisGame.put("gameID", rs.getString("gameID"));
                     thisGame.put("whiteUsername", rs.getString("whiteUsername"));
                     thisGame.put("blackUsername", rs.getString("blackUsername"));
@@ -137,12 +137,12 @@ public class MySqlDataAccess implements DataAccess{
         }
     }
 
-    public Map<String, String> getGame(String gameID){
+    public Map<String, Object> getGame(String gameID){
         if (gameID == null){
             return null;
         }
         int gameInt = Integer.parseInt(gameID);
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         var statement = "SELECT gameID, gameName, whiteUsername, blackUsername, json FROM chessGames WHERE gameID = ?";
         try (var conn = DatabaseManager.getConnection();
@@ -152,12 +152,16 @@ public class MySqlDataAccess implements DataAccess{
             try (var rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String jsonGame = rs.getString("json");
+                    if (jsonGame == null || jsonGame.isEmpty()) {
+                        throw new RuntimeException("Game JSON is missing for gameID: " + gameID);
+                    }
                     map.put("gameID", gameID);
                     map.put("whiteUsername", rs.getString("whiteUsername"));
                     map.put("blackUsername", rs.getString("blackUsername"));
                     map.put("gameName", rs.getString("gameName"));
                     Gson gson = new Gson();
                     ChessGame chessGame = gson.fromJson(jsonGame, ChessGame.class);
+                    map.put("chessGame", chessGame);
                     return map;
                 } else {
                     return null;

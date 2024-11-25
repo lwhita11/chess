@@ -104,14 +104,14 @@ public class DataAccessTests {
     @Test
     void addGame() throws ResponseException {
         String gameID = DATA_ACCESS.addGame("testGame");
-        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        Map<String, Object> game = DATA_ACCESS.getGame(gameID);
         assertEquals(game.get("gameID"), gameID);
     }
 
     @Test
     void addNullGame() throws ResponseException {
         String gameID = DATA_ACCESS.addGame(null);
-        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        Map<String, Object> game = DATA_ACCESS.getGame(gameID);
         assertNull(gameID);
         assertNull(game);
     }
@@ -119,7 +119,7 @@ public class DataAccessTests {
     @Test
     void getGame() throws ResponseException {
         String gameID = DATA_ACCESS.addGame("NewGame");
-        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        Map<String, Object> game = DATA_ACCESS.getGame(gameID);
         assertEquals("NewGame", game.get("gameName"));
     }
 
@@ -133,8 +133,8 @@ public class DataAccessTests {
     void listGames() throws ResponseException {
         String gameID1 = DATA_ACCESS.addGame("game1");
         String gameID2 = DATA_ACCESS.addGame("game2");
-        List<Map<String, String>> games = DATA_ACCESS.listGames();
-        List<Map<String, String>> expectedGames = new ArrayList<>();
+        List<Map<String, Object>> games = DATA_ACCESS.listGames();
+        List<Map<String, Object>> expectedGames = new ArrayList<>();
         expectedGames.add(DATA_ACCESS.getGame(gameID1));
         expectedGames.add(DATA_ACCESS.getGame(gameID2));
         assertEquals(games, expectedGames);
@@ -144,8 +144,8 @@ public class DataAccessTests {
     void listBadGames() throws ResponseException {
         String gameID1 = DATA_ACCESS.addGame(null);
         String gameID2 = DATA_ACCESS.addGame("game1");
-        List<Map<String, String>> games = DATA_ACCESS.listGames();
-        List<Map<String, String>> expectedGames = new ArrayList<>();
+        List<Map<String, Object>> games = DATA_ACCESS.listGames();
+        List<Map<String, Object>> expectedGames = new ArrayList<>();
         expectedGames.add(DATA_ACCESS.getGame(gameID1));
         expectedGames.add(DATA_ACCESS.getGame(gameID2));
         assertNotEquals(games, expectedGames);
@@ -157,7 +157,7 @@ public class DataAccessTests {
     void setBlackUsername() throws ResponseException {
     String gameID1 = DATA_ACCESS.addGame("game1");
     DATA_ACCESS.setBlackTeam("Test", gameID1);
-    Map<String, String> game1 = DATA_ACCESS.getGame(gameID1);
+    Map<String, Object> game1 = DATA_ACCESS.getGame(gameID1);
     assertEquals(game1.get("blackUsername"), "Test");
     }
 
@@ -166,7 +166,7 @@ public class DataAccessTests {
         String gameID = DATA_ACCESS.addGame("NewGame");
         assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
         DATA_ACCESS.setBlackTeam("Test", "88"); //different ID number
-        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        Map<String, Object> game = DATA_ACCESS.getGame(gameID);
         assertNotEquals(game.get("blackUsername"), "Test");
     }
 
@@ -174,7 +174,7 @@ public class DataAccessTests {
     void setWhiteUsername() throws ResponseException {
         String gameID1 = DATA_ACCESS.addGame("game");
         DATA_ACCESS.setWhiteTeam("Test", gameID1);
-        Map<String, String> game1 = DATA_ACCESS.getGame(gameID1);
+        Map<String, Object> game1 = DATA_ACCESS.getGame(gameID1);
         assertEquals(game1.get("whiteUsername"), "Test");
     }
 
@@ -183,7 +183,7 @@ public class DataAccessTests {
         String gameID = DATA_ACCESS.addGame("Game1");
         assertThrows(NumberFormatException.class, () -> DATA_ACCESS.getGame("IncorrectGameID"));
         DATA_ACCESS.setWhiteTeam("Test", "88"); //different ID number
-        Map<String, String> game = DATA_ACCESS.getGame(gameID);
+        Map<String, Object> game = DATA_ACCESS.getGame(gameID);
         assertNotEquals(game.get("whiteUsername"), "Test");
     }
 

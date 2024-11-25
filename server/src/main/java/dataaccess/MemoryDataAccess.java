@@ -9,8 +9,8 @@ import java.util.Map;
 public class MemoryDataAccess implements DataAccess{
     HashMap<String, String> passwords = new HashMap<>();
     HashMap<String, String> authTokens = new HashMap<>();
-    List<Map<String, String>> gamesList = new ArrayList<>();
-    Map<String, Map<String, String>> gamesMap = new HashMap<>();
+    List<Map<String, Object>> gamesList = new ArrayList<>();
+    Map<String, Map<String, Object>> gamesMap = new HashMap<>();
     int gameID = 1;
 
     public String getPassword(String username) {
@@ -40,14 +40,14 @@ public class MemoryDataAccess implements DataAccess{
         authTokens.remove(authToken);
     }
 
-    public List<Map<String, String>> listGames() {
+    public List<Map<String, Object>> listGames() {
         return gamesList;
     }
 
     public String addGame(String gameName) {
         String thisId = Integer.toString(gameID);
         gameID++;
-        HashMap<String, String> thisGame = new HashMap<>();
+        HashMap<String, Object> thisGame = new HashMap<>();
         thisGame.put("gameID", thisId);
         thisGame.put("whiteUsername", null);
         thisGame.put("blackUsername", null);
@@ -57,12 +57,12 @@ public class MemoryDataAccess implements DataAccess{
         return thisId;
     }
 
-    public Map<String, String> getGame(String gameID) {
+    public Map<String, Object> getGame(String gameID) {
         return gamesMap.get(gameID);
     }
 
     public void setBlackTeam(String username, String gameID) {
-        Map<String, String> game = gamesMap.get(gameID);
+        Map<String, Object> game = gamesMap.get(gameID);
         if (game != null) {
             game.put("blackUsername", username);
             gamesMap.put(gameID, game);
@@ -70,7 +70,7 @@ public class MemoryDataAccess implements DataAccess{
     }
 
     public void setWhiteTeam(String username, String gameID) {
-        Map<String, String> game = gamesMap.get(gameID);
+        Map<String, Object> game = gamesMap.get(gameID);
         if (game!= null) {
             game.put("whiteUsername", username);
             gamesMap.put(gameID, game);

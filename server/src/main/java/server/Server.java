@@ -105,7 +105,7 @@ public class Server {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
         }
-        List<Map<String, String>> games = service.listGames();
+        List<Map<String, Object>> games = service.listGames();
         Map<String, Object> response = new HashMap<>();
         res.status(200);
         response.put("games", games);
@@ -136,6 +136,7 @@ public class Server {
         ChessGame.TeamColor playerColor = joinGameData.playerColor();
         String gameID = joinGameData.gameID();
         String authToken = req.headers("authorization");
+        ChessGame game;
         if (service.invalidToken(authToken)) {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
@@ -153,16 +154,17 @@ public class Server {
             return new Gson().toJson(Map.of("message", "Error: already taken"));
         }
         if(playerColor.equals(ChessGame.TeamColor.BLACK)) {
-            service.setBlackTeam(authToken, gameID);
+            game = (ChessGame) service.setBlackTeam(authToken, gameID);
         }
         else if(playerColor.equals(ChessGame.TeamColor.WHITE)) {
-            service.setWhiteTeam(authToken, gameID);
+            game = service.setWhiteTeam(authToken, gameID);
         }
         else {
             return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
         res.status(200);
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
+        response.put("chessGame", game);
         return new Gson().toJson(response);
     }
 
