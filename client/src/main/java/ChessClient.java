@@ -98,6 +98,7 @@ public class ChessClient {
         if (state != State.SIGNEDIN) {
             throw new ResponseException(400, "Invalid command");
         }
+        List<Map<String, Object>> thisList = new ArrayList<>();
         List<Map<String, Object>> games = server.listGames(authToken);
         String response = String.format("%-10s %-5s%n\n", "GameName", "GameNumber");
         for (int i = 0; i < games.size(); i++) {
@@ -105,10 +106,11 @@ public class ChessClient {
             String gameID = (String) games.get(i).get("gameID");
             Map<String, Object> thisGame = new HashMap<>();
             thisGame.put(gameNum, gameID);
-            gameList.add(thisGame);
+            thisList.add(thisGame);
             response = String.format(response + "%-10s %-5s%n", games.get(i).get("gameName"),
                     gameNum);
         }
+        gameList = thisList;
         return response;
     }
 
@@ -155,7 +157,7 @@ public class ChessClient {
                 return boardToStringBlack(game.getBoard());
             }
             else {
-                return String.format("You joined game %s ", gameNumber);
+                return boardToStringWhite(game.getBoard());
             }
         }
         throw new ResponseException(400, "Expected: <GAMENUMBER> [BLACK|WHITE]");
@@ -178,16 +180,19 @@ public class ChessClient {
 
         rows.add(row1);rows.add(row2);rows.add(row3);rows.add(row4);rows.add(row5);rows.add(row6);rows.add(row7);
         rows.add(row8);
+        result = iterateBoard(0, 0, 1,1, board, rows, result);
+        return result + row + EscapeSequences.RESET_BG_COLOR;
+    }
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+    private String iterateBoard(int iVal, int jVal, int iIter, int jIter, ChessBoard board, List<String> rows, String result) {
+        for (int i = iVal; (iVal > 0 ? i >= 0 : i < 8); i += iIter) {
+            for (int j = jVal; j < 8; j += jIter) {
                 String background;
-                ChessPosition currPos = new ChessPosition(i+1, j+1);
+                ChessPosition currPos = new ChessPosition(i + 1, j + 1);
                 ChessPiece currPiece = board.getPiece(currPos);
-                if ((i + j) % 2 == 0){
+                if ((i + j + iVal - 1) % 2 == 0) {
                     background = EscapeSequences.SET_BG_COLOR_DARK_GREEN;
-                }
-                else {
+                } else {
                     background = EscapeSequences.SET_BG_COLOR_WHITE;
                 }
                 if (currPiece == null) {
@@ -196,7 +201,7 @@ public class ChessClient {
                 }
                 ChessGame.TeamColor pieceColor = currPiece.getTeamColor();
                 if (pieceColor == ChessGame.TeamColor.BLACK) {
-                    switch(currPiece.getPieceType()){
+                    switch (currPiece.getPieceType()) {
                         case ChessPiece.PieceType.PAWN:
                             rows.set(i, rows.get(i) + background + EscapeSequences.BLACK_PAWN + "\t");
                             break;
@@ -219,7 +224,7 @@ public class ChessClient {
                 }
 
                 if (pieceColor == ChessGame.TeamColor.WHITE) {
-                    switch(currPiece.getPieceType()){
+                    switch (currPiece.getPieceType()) {
                         case ChessPiece.PieceType.PAWN:
                             rows.set(i, rows.get(i) + background + EscapeSequences.WHITE_PAWN + "\t");
                             break;
@@ -240,11 +245,31 @@ public class ChessClient {
                             break;
                     }
                 }
-
             }
             result = result + rows.get(i) + EscapeSequences.SET_BG_COLOR_LIGHT_GREY + "\t" + Integer.toString(i + 1)
                     + EscapeSequences.RESET_BG_COLOR + "\n";
         }
+        return result;
+    }
+
+    private String boardToStringWhite(ChessBoard board) {
+        String row = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK +
+                "\t a\t b\t c\t d\t e\t f\t g\t h\t\t " + EscapeSequences.RESET_BG_COLOR + "\n";
+        List<String> rows = new ArrayList<>();
+        String row1 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "8\t";
+        String row2 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "7\t";
+        String row3 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "6\t";
+        String row4 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "5\t";
+        String row5 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "4\t";
+        String row6 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "3\t";
+        String row7 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "2\t";
+        String row8 = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK + "1\t";
+
+        String result = row;
+
+        rows.add(row1);rows.add(row2);rows.add(row3);rows.add(row4);rows.add(row5);rows.add(row6);rows.add(row7);
+        rows.add(row8);
+        result = iterateBoard(7, 0, -1,1, board, rows, result);
         return result + row + EscapeSequences.RESET_BG_COLOR;
     }
 
