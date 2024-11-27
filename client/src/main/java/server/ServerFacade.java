@@ -32,17 +32,6 @@ public class ServerFacade {
         }
     }
 
-    public static class JoinGameResponse {
-        private ChessGame game;
-
-        public ChessGame getGame() {
-            return game;
-        }
-        public void setGame(ChessGame game) {
-            this.game = game;
-        }
-    }
-
     public static class GamesResponse {
         private List<Map<String, Object>> games;
 
@@ -108,11 +97,13 @@ public class ServerFacade {
         var path = "/game";
         Map<String, String> headers = Map.of("authorization", authToken);
         Map<String, String> requestBody = Map.of("gameName", gameName);
-        SingleGameResponse response = this.makeRequest("POST", path, requestBody, SingleGameResponse.class, headers);
+        SingleGameResponse response = this.makeRequest("POST", path, requestBody,
+                SingleGameResponse.class, headers);
         return response.getGameID();
     }
 
-    public ChessGame joinGame (String gameID, ChessGame.TeamColor teamColor, String authToken) throws ResponseException {
+    public ChessGame joinGame (String gameID, ChessGame.TeamColor teamColor,
+                               String authToken) throws ResponseException {
         var path = "/game";
         Map<String, String> headers = Map.of("authorization", authToken);
         Map<String, Object> requestBody = Map.of("gameID", gameID, "playerColor", teamColor);
