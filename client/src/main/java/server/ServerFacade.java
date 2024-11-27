@@ -164,7 +164,7 @@ public class ServerFacade {
         var status = http.getResponseCode();
         if (!isSuccessful(status)) {
             String msg = http.getResponseMessage();
-            throw new ResponseException(status, "failure: " + status + " - " + msg);
+            throw new ResponseException(status, "failure: " + msg);
         }
     }
 

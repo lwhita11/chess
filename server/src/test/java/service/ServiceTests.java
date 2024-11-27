@@ -74,7 +74,7 @@ public class ServiceTests {
         SERVICE.addUser("Jimmy", "John");
         SERVICE.addGame("newGame");
         SERVICE.clearData();
-        List<Map<String, String>> gamesList = SERVICE.listGames();
+        List<Map<String, Object>> gamesList = SERVICE.listGames();
         assertEquals(0, gamesList.size());
     }
 
@@ -84,7 +84,7 @@ public class ServiceTests {
         SERVICE.addUser("Jimmy", "John");
         SERVICE.addGame("newGame");
         SERVICE.clearData();
-        List<Map<String, String>> gamesList = SERVICE.listGames();
+        List<Map<String, Object>> gamesList = SERVICE.listGames();
         assertFalse(!gamesList.isEmpty());
     }
 
@@ -112,7 +112,7 @@ public class ServiceTests {
     void listGames() throws ResponseException {
         SERVICE.addGame("test game");
         SERVICE.addGame("test game2");
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertEquals(2, games.size());
     }
 
@@ -121,14 +121,14 @@ public class ServiceTests {
         SERVICE.addGame("test game");
         SERVICE.addGame("test game2");
         SERVICE.clearData();
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertEquals(0, games.size());
     }
 
     @Test
     void addGame() throws ResponseException {
         SERVICE.addGame("test game");
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertEquals(1, games.size());
     }
 
@@ -136,7 +136,7 @@ public class ServiceTests {
     void addBadGame() throws ResponseException {
         SERVICE.addGame("1game");
         SERVICE.addUser("Johnny", "James");
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertEquals(1, games.size());
     }
 
@@ -147,7 +147,7 @@ public class ServiceTests {
         String authToken = SERVICE.generateToken("John");
         String gameID = SERVICE.addGame("test game2");
         SERVICE.setBlackTeam(authToken, gameID);
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertTrue(SERVICE.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
     }
 
@@ -159,7 +159,7 @@ public class ServiceTests {
         String gameID = SERVICE.addGame("test game2");
         SERVICE.setBlackTeam(authToken, "1234");
         SERVICE.setBlackTeam("badToken", gameID);
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertFalse(SERVICE.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
     }
 
@@ -181,7 +181,7 @@ public class ServiceTests {
         String gameID = SERVICE.addGame("test game2");
         SERVICE.setWhiteTeam(authToken, "1234");
         SERVICE.setWhiteTeam("badToken", gameID);
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertFalse(SERVICE.teamIsTaken(gameID, ChessGame.TeamColor.WHITE));
     }
 
@@ -193,7 +193,7 @@ public class ServiceTests {
         String gameID = SERVICE.addGame("test game2");
         SERVICE.setBlackTeam(authToken, gameID);
         SERVICE.setWhiteTeam(authToken, gameID);
-        List<Map<String, String>> games = SERVICE.listGames();
+        List<Map<String, Object>> games = SERVICE.listGames();
         assertTrue(SERVICE.teamIsTaken(gameID, ChessGame.TeamColor.BLACK));
         assertTrue(SERVICE.teamIsTaken(gameID, ChessGame.TeamColor.WHITE));
     }

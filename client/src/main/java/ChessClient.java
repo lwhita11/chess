@@ -53,7 +53,11 @@ public class ChessClient {
             username = params[0];
             String password = params[1];
             String email = params[2];
-            authToken = server.registerUser(username, password, email).getAuthToken();
+            try {
+                authToken = server.registerUser(username, password, email).getAuthToken();
+            } catch (ResponseException e) {
+                throw new ResponseException(400, "Could not register user. Try a different username");
+            }
             state = State.SIGNEDIN;
             return String.format("Successfully registered %s.", username);
         }
@@ -75,7 +79,7 @@ public class ChessClient {
     }
 
     public String logout() throws ResponseException {
-        if (state != State.SIGNEDOUT){
+        if (state != State.SIGNEDIN){
             throw new ResponseException(400, "Invalid command");
         }
         server.logout(authToken);
@@ -131,7 +135,7 @@ public class ChessClient {
             }
 
             if (gameList == null || gameList.isEmpty()) {
-                throw new ResponseException(400, "No games available to join. Please list games first.");
+                throw new ResponseException(400, "Game not available to join. List available games");
             }
             int gameIndex;
             try {
@@ -178,6 +182,10 @@ public class ChessClient {
                 gameIndex = Integer.parseInt(gameNumber) - 1;
             } catch (NumberFormatException e) {
                 throw new ResponseException(400, "Invalid game number format.");
+            }
+            if (gameIndex > gameList.size() - 1) {
+                throw new ResponseException(500, "Game number not found for the selected game. List available " +
+                        "games or create a new game");
             }
             Map<String, Object> gameMap = gameList.get(gameIndex);
             if (gameMap == null) {

@@ -91,7 +91,9 @@ public class ChessService {
     }
 
     public ChessGame getGame(String gameID) {
-        System.out.println("In Chess Service");
+        if (invalidID(gameID)) {
+            return null;
+        }
         return (ChessGame) dataAccess.getGame(gameID).get("chessGame");
     }
 
@@ -100,12 +102,18 @@ public class ChessService {
             String username = dataAccess.getUsername(authToken);
             dataAccess.setWhiteTeam(username, gameID);
         }
+        if (invalidID(gameID)) {
+            return null;
+        }
         return (ChessGame) dataAccess.getGame(gameID).get("chessGame");
     }
     public Object setBlackTeam(String authToken, String gameID) {
         if (!teamIsTaken(gameID, ChessGame.TeamColor.BLACK)) {
             String username = dataAccess.getUsername(authToken);
             dataAccess.setBlackTeam(username, gameID);
+        }
+        if (invalidID(gameID)) {
+            return null;
         }
         ChessGame chessGame = (ChessGame) dataAccess.getGame(gameID).get("chessGame");
         return chessGame;
