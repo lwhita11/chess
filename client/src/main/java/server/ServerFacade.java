@@ -19,16 +19,8 @@ public class ServerFacade {
             return authToken;
         }
 
-        public void setAuthToken(String authToken) {
-            this.authToken = authToken;
-        }
-
         public String getUsername() {
             return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
         }
     }
 
@@ -38,10 +30,6 @@ public class ServerFacade {
         public List<Map<String, Object>> getGames() {
             return games;
         }
-
-        public void setGames(List<Map<String, Object>> games) {
-            this.games = games;
-        }
     }
 
     public static class SingleGameResponse {
@@ -49,10 +37,6 @@ public class ServerFacade {
 
         public String getGameID() {
             return gameID;
-        }
-
-        public void setGameID(String gameID) {
-            this.gameID = gameID;
         }
     }
 
@@ -117,7 +101,8 @@ public class ServerFacade {
         return this.makeRequest("PUT", path, requestBody, ChessGame.class, headers);
     }
 
-    private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Map<String, String> headers) throws ResponseException {
+    private <T> T makeRequest(String method, String path, Object request,
+                              Class<T> responseClass, Map<String, String> headers) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
