@@ -13,13 +13,15 @@ import java.util.Map;
 public class ServerFacadeTests {
 
     private static Server server;
-    private static String serverUrl = "http://localhost:8080";
-    private static ServerFacade serverFacade = new ServerFacade(serverUrl);
+    private static String serverUrl;
+    private static ServerFacade serverFacade;
 
     @BeforeAll
     public static void init() {
         server = new Server();
-        var port = server.run(8080);
+        var port = server.run(0);
+        serverUrl = "http://localhost:" + port;
+        serverFacade = new ServerFacade(serverUrl);
         System.out.println("Started test HTTP server on " + port);
     }
 

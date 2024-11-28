@@ -101,6 +101,7 @@
     "JUnit.RookMoveTests.executor": "Run",
     "JUnit.RookMoveTests.rookMoveUntilEdge.executor": "Run",
     "JUnit.ServerFacadeTests.badCreate.executor": "Run",
+    "JUnit.ServerFacadeTests.badGetAuthToken.executor": "Run",
     "JUnit.ServerFacadeTests.badJoin.executor": "Run",
     "JUnit.ServerFacadeTests.badList.executor": "Run",
     "JUnit.ServerFacadeTests.badLogin.executor": "Run",
@@ -286,7 +287,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="107712000" />
+      <workItem from="1730342846956" duration="109121000" />
     </task>
     <servers />
   </component>
