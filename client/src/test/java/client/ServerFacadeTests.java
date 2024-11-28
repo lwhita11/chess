@@ -148,4 +148,61 @@ public class ServerFacadeTests {
                 "bad auth token"));
     }
 
+    @Test
+    public void goodGetGameID() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test15", "1234",
+                "test@mail.com");
+        String gameID = serverFacade.createGame("test1", response.getAuthToken());
+        Assertions.assertNotNull(gameID);
+    }
+    @Test
+    public void badGetGameID() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test16", "1234",
+                "test@mail.com");
+        Assertions.assertThrows(ResponseException.class, () -> serverFacade.createGame("test1", "bad Auth"));
+    }
+
+    @Test
+    public void goodGetAuthToken() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test17", "1234",
+                "test@mail.com");
+        Assertions.assertDoesNotThrow(() -> response.getAuthToken());
+    }
+    @Test
+    public void badGetAuthToken() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test18", "1234",
+                "test@mail.com");
+        Assertions.assertThrows(ResponseException.class, () ->
+                serverFacade.registerUser("test18", "1234", "test@mail.com").getAuthToken());
+    }
+
+    @Test
+    public void goodGetUsername() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test19", "1234",
+                "test@mail.com");
+        Assertions.assertDoesNotThrow(() -> response.getUsername());
+    }
+    @Test
+    public void badGetUsername() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test20", "1234",
+                "test@mail.com");
+        Assertions.assertThrows(ResponseException.class, () ->
+                serverFacade.registerUser("test20", "1234", "test@mail.com").getUsername());
+    }
+
+    @Test
+    public void goodGetGames() throws ResponseException {
+        serverFacade.clear();
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test21", "1234",
+                "test@mail.com");
+        List<Map<String, Object>> games = serverFacade.listGames(response.getAuthToken());
+        Assertions.assertEquals(0, games.size());
+    }
+    @Test
+    public void badGetGames() throws ResponseException {
+        ServerFacade.LoginResponse response = serverFacade.registerUser("test22", "1234",
+                "test@mail.com");
+        Assertions.assertThrows(ResponseException.class, () -> serverFacade.listGames("Bad authToken"));
+    }
+
 }
