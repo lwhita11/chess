@@ -22,8 +22,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+@WebSocket
 public class WebSocketHandler {
     ChessService service = new ChessService();
+    private static final Map<Integer, Session> sessions = new ConcurrentHashMap<>();
+
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
@@ -33,7 +36,7 @@ public class WebSocketHandler {
             if (service.invalidToken(authToken)) {
                 throw new IOException();
             }
-            saveSession(command.getGameID());
+            // saveSession(command.getGameID());
 
             switch (command.getCommandType()) {
                 case CONNECT -> connect(session, authToken, command);
@@ -47,11 +50,28 @@ public class WebSocketHandler {
     }
 
     private void connect(Session session, String authToken, UserGameCommand command){
-
+        sessions.put(command.getGameID(), session);
+        ServerMessage message = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
+        try {
+            session.getRemote().sendString(new Gson().toJson(message));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void makeMove(Session session, String authToken, UserGameCommand command) {
+        ChessGame game = service.getGame(command.getGameID());
+        if (game == null) {
+            sendError(session, "Game not found.");
+            return;
+        }
 
+        try {
+            service.makeMove(command.getGameID(), command.getAuthToken(), /* additional move details */);
+            broadcastToGame(command.getGameID(), new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION));
+        } catch (InvalidMoveException e) {
+            sendError(session, "Invalid move: " + e.getMessage());
+        }
     }
 
     private void leaveGame(Session session, String authToken, UserGameCommand command) {
@@ -59,6 +79,10 @@ public class WebSocketHandler {
     }
 
     private void resign(Session session, String authToken, UserGameCommand command) {
+
+    }
+
+    private void sendError(Session session, String errorMessage) {
 
     }
 

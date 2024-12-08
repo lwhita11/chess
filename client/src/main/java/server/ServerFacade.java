@@ -47,6 +47,9 @@ public class ServerFacade {
     }
 
     WebSocketCommunicator ws;
+    WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+    URI uri = URI.create(url);
+    container.connectToServer(this, uri);
 
     public void connectWS() {
         try {

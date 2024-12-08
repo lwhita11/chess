@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.eclipse.jetty.websocket.api.Session;
 
+
 public class WebSocketCommunicator {
 
     Session session;
