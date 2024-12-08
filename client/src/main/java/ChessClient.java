@@ -11,12 +11,15 @@ import ui.EscapeSequences.*;
 import ui.PrintBoard;
 
 public class ChessClient {
+    private boolean isResigned = false;
     private String username = null;
     private final ServerFacade server;
     private final String serverUrl;
     private State state = State.SIGNEDOUT;
     private String authToken;
     private ChessGame.TeamColor teamColor;
+    private ChessGame chessGame;
+    private ChessBoard chessBoard;
     private List<Map<String, Object>> gameList = new ArrayList<>();
 
 
@@ -41,6 +44,10 @@ public class ChessClient {
                 case "observe" -> observeGame(params);
                 case "redraw" -> redraw();
                 case "leave" -> leave();
+                case "makemove" -> makeMove(params);
+                case "resign" -> resign();
+                case "y" -> confirmResign();
+                case "n" -> declineResign();
                 default -> help();
             };
         } catch (ResponseException ex) {
@@ -171,6 +178,8 @@ public class ChessClient {
             ChessGame game = server.joinGame(gameID, teamColor, authToken);
             System.out.println(game.getBoard().toString());
             state = State.JOINEDGAME;
+            chessGame = game;
+            chessBoard = game.getBoard();
             if (teamColor == ChessGame.TeamColor.BLACK) {
                 return PrintBoard.boardToStringBlack(game.getBoard());
             }
@@ -212,10 +221,20 @@ public class ChessClient {
             }
             thisGame = server.observeGame(gameID, authToken);
             ChessBoard thisBoard = thisGame.getBoard();
+            chessBoard = thisBoard;
+            chessGame = thisGame;
             return PrintBoard.boardToStringWhite(thisBoard);
         }
         throw new ResponseException(400, "Expected: observe <GAMENUMBER>");
     }
+
+    public String redraw() throws ResponseException {
+        if (state != State.JOINEDGAME) {
+            throw new ResponseException(400, "Invalid command");
+        }
+        return PrintBoard.boardToStringWhite(chessBoard);
+    }
+
 
     public String help() {
         String description = EscapeSequences.SET_TEXT_COLOR_MAGENTA;
@@ -238,7 +257,7 @@ public class ChessClient {
         else if (state == State.JOINEDGAME) {
             return option + "redraw" + description + " - redraw board\n" +
                     option + "leave" + description + " - leave current game\n" +
-                    option + "makemove + <POSITION(a-h)(1-8)> <POSITION(a-h)(1-8)>" + description +
+                    option + "makemove <POSITION(a-h)(1-8)> <POSITION(a-h)(1-8)>" + description +
                     " - make Chess Move\n" +
                     option + "resign" + description + " - resign the game" +
                     option + "showmoves" + description + " - highlights legal moves\n" +
