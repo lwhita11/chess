@@ -1,4 +1,5 @@
 package dataaccess;
+import chess.ChessGame;
 import exception.ResponseException;
 import model.UserData;
 
@@ -18,6 +19,7 @@ public interface DataAccess {
     public Map<String, Object> getGame(String gameID);
     public void setBlackTeam(String username, String gameID);
     public void setWhiteTeam(String username, String gameID);
+    public void updateGame(String gameID, ChessGame game);
 }
 
 

@@ -1,6 +1,8 @@
 package server;
 
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessMove;
 import chess.InvalidMoveException;
 import com.google.gson.Gson;
 import dataaccess.DataAccess;
@@ -25,27 +27,24 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebSocket
 public class WebSocketHandler {
     ChessService service = new ChessService();
-    private static final Map<Integer, Session> sessions = new ConcurrentHashMap<>();
+    private static final Map<String, Session> sessions = new ConcurrentHashMap<>();
 
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
-        try {
-            UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
-            String authToken = command.getAuthToken();
-            if (service.invalidToken(authToken)) {
-                throw new IOException();
-            }
-            // saveSession(command.getGameID());
+        UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
+        String authToken = command.getAuthToken();
+        ChessMove move = command.getMove();
+        if (service.invalidToken(authToken)) {
+            throw new IOException();
+        }
+        // saveSession(command.getGameID());
 
-            switch (command.getCommandType()) {
-                case CONNECT -> connect(session, authToken, command);
-                case MAKE_MOVE -> makeMove(session, authToken, command);
-                case LEAVE -> leaveGame(session, authToken, command);
-                case RESIGN -> resign(session, authToken, command);
-            }
-        } catch (ResponseException ex){
-            System.out.println("Unauthorized");
+        switch (command.getCommandType()) {
+            case CONNECT -> connect(session, authToken, command);
+            case MAKE_MOVE -> makeMove(session, authToken, command, move);
+            case LEAVE -> leaveGame(session, authToken, command);
+            case RESIGN -> resign(session, authToken, command);
         }
     }
 
@@ -59,19 +58,14 @@ public class WebSocketHandler {
         }
     }
 
-    private void makeMove(Session session, String authToken, UserGameCommand command) {
+    private void makeMove(Session session, String authToken, UserGameCommand command, ChessMove chessMove) {
         ChessGame game = service.getGame(command.getGameID());
         if (game == null) {
             sendError(session, "Game not found.");
             return;
         }
-
-        try {
-            service.makeMove(command.getGameID(), command.getAuthToken(), /* additional move details */);
-            broadcastToGame(command.getGameID(), new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION));
-        } catch (InvalidMoveException e) {
-            sendError(session, "Invalid move: " + e.getMessage());
-        }
+        ChessBoard board = service.makeMove(command.getGameID(), command.getAuthToken(), chessMove);
+        broadcastToGame(command.getGameID(), new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION));
     }
 
     private void leaveGame(Session session, String authToken, UserGameCommand command) {
@@ -84,6 +78,17 @@ public class WebSocketHandler {
 
     private void sendError(Session session, String errorMessage) {
 
+    }
+
+    private void broadcastToGame(String gameID, ServerMessage message) {
+        if (sessions.containsKey(gameID)) {
+            try {
+                Session session = sessions.get(gameID);
+                session.getRemote().sendString(new Gson().toJson(message));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessBoard;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import exception.ResponseException;
@@ -188,6 +189,16 @@ public class MySqlDataAccess implements DataAccess{
         int gameInt = Integer.parseInt(gameID);
         try {
             executeUpdate(statement, username, gameInt);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateGame(String gameID, ChessGame game) {
+        var statement = "UPDATE chessGames SET chessGame = ? WHERE gameID = ?";
+        int gameInt = Integer.parseInt(gameID);
+        try {
+            executeUpdate(statement, game, gameInt);
         } catch (ResponseException e) {
             throw new RuntimeException(e);
         }

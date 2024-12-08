@@ -1,6 +1,9 @@
 package service;
 
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessMove;
+import chess.InvalidMoveException;
 import dataaccess.DataAccess;
 import dataaccess.MemoryDataAccess;
 import dataaccess.MySqlDataAccess;
@@ -128,5 +131,22 @@ public class ChessService {
 
     private String hashPassword(String clearTextPassword) {
         return BCrypt.hashpw(clearTextPassword, BCrypt.gensalt());
+    }
+
+    public ChessBoard makeMove(String gameID, String authToken, ChessMove move) {
+        if (invalidToken(authToken)) {
+            return null;
+        }
+        if (invalidID(gameID)) {
+            return null;
+        }
+        ChessGame currGame = getGame(gameID);
+        try {
+            currGame.makeMove(move);
+        } catch (InvalidMoveException e) {
+            throw new RuntimeException(e);
+        }
+        dataAccess.updateGame(gameID, currGame);
+        return currGame.getBoard();
     }
 }

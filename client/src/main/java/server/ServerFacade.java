@@ -47,13 +47,10 @@ public class ServerFacade {
     }
 
     WebSocketCommunicator ws;
-    WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-    URI uri = URI.create(url);
-    container.connectToServer(this, uri);
 
     public void connectWS() {
         try {
-            ws = new WebsocketCommunicator(serverDomain);
+            // ws = new WebsocketCommunicator(serverDomain);
         }
         catch (Exception e) {
             System.out.println("could not connect to server");
