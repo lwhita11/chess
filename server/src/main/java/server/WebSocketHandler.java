@@ -111,13 +111,15 @@ public class WebSocketHandler {
         if (sessions.containsKey(gameID)) {
             try {
                 List<Session> sessionList = sessions.get(gameID);
+                System.out.println("Broadcasted message: " + message);
                 for (int i = 0; i < sessionList.size(); i++) {
                     if (sessionList.get(i) == currSession) {
                         continue;
                     }
+                    System.out.println("Sending Broadcasted message to index: " + Integer.toString(i));
                     sessionList.get(i).getRemote().sendString(new Gson().toJson(message));
                 }
-                System.out.println("Outside if statement");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
