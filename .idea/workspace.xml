@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shared/src/main/java/websocket/messages/ErrorMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/WebSocketHandler.java" afterDir="false" />
     </list>
@@ -133,9 +132,12 @@
     "JUnit.ValidMovesTests.forcedMove.executor": "Run",
     "JUnit.ValidMovesTests.kingInDanger.executor": "Run",
     "JUnit.ValidMovesTests.moveIntoCheck.executor": "Run",
+    "JUnit.WebSocketTests.connectBadAuthToken.executor": "Run",
     "JUnit.WebSocketTests.connectBadGameID.executor": "Run",
     "JUnit.WebSocketTests.connectGood.executor": "Run",
     "JUnit.WebSocketTests.executor": "Run",
+    "JUnit.WebSocketTests.invalidMoveWrongTurn.executor": "Run",
+    "JUnit.WebSocketTests.makeMoveBadAuthtoken.executor": "Run",
     "JUnit.passoff in shared.executor": "Run",
     "JUnit.passoff.chess in shared.executor": "Run",
     "JUnit.passoff.chess.piece in shared.executor": "Run",
@@ -181,21 +183,7 @@
       <recent name="dataaccess" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.WebSocketTests.connectBadGameID">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.WebSocketTests.invalidMoveBadMove">
     <configuration name="WebSocketTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -211,7 +199,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.connectBadGameID" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.connectBadAuthToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -221,13 +209,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="connectBadGameID" />
+      <option name="METHOD_NAME" value="connectBadAuthToken" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.connectGood" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.invalidMoveBadMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -237,7 +225,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="connectGood" />
+      <option name="METHOD_NAME" value="invalidMoveBadMove" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.invalidMoveWrongTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="invalidMoveWrongTurn" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.makeMoveBadAuthtoken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="makeMoveBadAuthtoken" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -245,11 +265,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.WebSocketTests.connectBadGameID" />
-        <item itemvalue="JUnit.WebSocketTests.connectGood" />
-        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="JUnit.WebSocketTests.invalidMoveBadMove" />
+        <item itemvalue="JUnit.WebSocketTests.invalidMoveWrongTurn" />
+        <item itemvalue="JUnit.WebSocketTests.makeMoveBadAuthtoken" />
         <item itemvalue="JUnit.WebSocketTests" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.WebSocketTests.connectBadAuthToken" />
       </list>
     </recent_temporary>
   </component>
@@ -274,7 +294,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="148323000" />
+      <workItem from="1730342846956" duration="149598000" />
     </task>
     <servers />
   </component>

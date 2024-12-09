@@ -20,10 +20,7 @@ import websocket.messages.NotificationMessage;
 import websocket.messages.ServerMessage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @WebSocket
@@ -37,9 +34,9 @@ public class WebSocketHandler {
         UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
         String authToken = command.getAuthToken();
         ChessMove move = command.getMove();
-        if (service.invalidToken(authToken)) {
-            throw new IOException();
-        }
+//        if (service.invalidToken(authToken)) {
+//            throw new IOException();
+//        }
         // saveSession(command.getGameID());
 
         switch (command.getCommandType()) {
@@ -79,6 +76,16 @@ public class WebSocketHandler {
                 e.printStackTrace();
             }
         }
+        if (service.invalidToken(authToken)) {
+            ServerMessage message = new ErrorMessage("Error: Invalid authToken");
+            try {
+                session.getRemote().sendString(new Gson().toJson(message));
+                System.out.println("errorMessage: " + new Gson().toJson(message));
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         ChessGame game = service.getGame(gameID);
         ServerMessage message = new LoadGameMessage(game);
         ServerMessage broadcastMessage = new NotificationMessage("UPDATE joined the game");
@@ -92,12 +99,29 @@ public class WebSocketHandler {
     }
 
     private void makeMove(Session session, String authToken, UserGameCommand command, ChessMove chessMove) {
-        ChessGame game = service.getGame(command.getGameID());
-        if (game == null) {
-            sendError(session, "Game not found.");
+
+        String gameID = command.getGameID();
+        if (service.invalidID(gameID)) {
+            sendError(session, new ErrorMessage("Error: Invalid game number"));
             return;
         }
+        if (service.invalidToken(authToken)) {
+            sendError(session, new ErrorMessage("Error: Invalid authToken"));
+            return;
+        }
+        if (chessMove == null) {
+            sendError(session, new ErrorMessage("Error: Invalid Chess Move"));
+        }
+
+        ChessGame game = service.getGame(command.getGameID());
+
+        Collection<ChessMove> validMoves = game.validMoves(chessMove.getStartPosition());
+        if (!validMoves.contains(chessMove)) {
+            sendError(session, new ErrorMessage("Error: Invalid Chess Move"));
+        }
+
         ChessBoard board = service.makeMove(command.getGameID(), command.getAuthToken(), chessMove);
+
         broadcastToGame(command.getGameID(), new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION), session);
     }
 
@@ -114,8 +138,13 @@ public class WebSocketHandler {
 //        System.out.println("WebSocket error: " + session.getRemoteAddress());
 //    }
 
-    private void sendError(Session session, String errorMessage) {
-
+    private void sendError(Session session, ServerMessage message) {
+        try {
+            session.getRemote().sendString(new Gson().toJson(message));
+            System.out.println("errorMessage: " + new Gson().toJson(message));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void broadcastToGame(String gameID, ServerMessage message, Session currSession) {
@@ -129,6 +158,7 @@ public class WebSocketHandler {
                     }
                     System.out.println("Sending Broadcasted message to index: " + Integer.toString(i));
                     sessionList.get(i).getRemote().sendString(new Gson().toJson(message));
+                    System.out.println("Sent broadcasted message");
                 }
 
             } catch (IOException e) {
