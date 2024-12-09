@@ -92,12 +92,12 @@ public class PrintBoard {
                     }
                 }
             }
-            int right_val;
+            int rightVal;
             if (jVal == 0) {
-                right_val = 7 - i;
+                rightVal = 7 - i;
             }
             else{
-                right_val = i;
+                rightVal = i;
             }
             result = result + rows.get(i) + EscapeSequences.SET_BG_COLOR_LIGHT_GREY + "\t" + Integer.toString(i + 1)
                     + EscapeSequences.RESET_BG_COLOR + "\n";

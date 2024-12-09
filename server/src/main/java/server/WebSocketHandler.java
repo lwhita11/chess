@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebSocket
 public class WebSocketHandler {
     ChessService service = new ChessService();
-    private static final Map<String, List<Session>> sessions = new ConcurrentHashMap<>();
+    Map<String, List<Session>> sessions = new ConcurrentHashMap<>();
 
 
     @OnWebSocketMessage
@@ -42,10 +42,6 @@ public class WebSocketHandler {
         }
         String authToken = command.getAuthToken();
         System.out.println("processing this command: " + message);
-//        if (service.invalidToken(authToken)) {
-//            throw new IOException();
-//        }
-        // saveSession(command.getGameID());
 
         switch (command.getCommandType()) {
             case CONNECT -> connect(session, authToken, command);
@@ -60,10 +56,6 @@ public class WebSocketHandler {
         System.out.println("WebSocket connected: " + session.getRemoteAddress());
     }
 
-//    @OnWebSocketError
-//    public void onError(Session session) {
-//        System.out.println(("WebSocket error: " + session.getRemoteAddress()));
-//    }
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
@@ -190,10 +182,6 @@ public class WebSocketHandler {
 
     }
 
-//    @OnWebSocketError
-//    public void onError(Session session) {
-//        System.out.println("WebSocket error: " + session.getRemoteAddress());
-//    }
 
     private void sendError(Session session, ServerMessage message) {
         try {

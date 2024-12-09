@@ -48,14 +48,6 @@ public class ServerFacade {
 
     // WebSocketCommunicator ws;
 
-    public void connectWS() {
-        try {
-            // ws = new WebsocketCommunicator(serverDomain);
-        }
-        catch (Exception e) {
-            System.out.println("could not connect to server");
-        }
-    }
 
     public LoginResponse login(String username, String password) throws ResponseException {
         var path = "/session";
