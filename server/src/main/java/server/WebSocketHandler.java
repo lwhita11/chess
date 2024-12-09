@@ -14,6 +14,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import service.ChessService;
 import websocket.commands.UserGameCommand;
+import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
 import websocket.messages.ServerMessage;
@@ -32,7 +33,7 @@ public class WebSocketHandler {
 
 
     @OnWebSocketMessage
-    public void onMessage(Session session, String message) throws IOException {
+    public void onMessage(Session session, String message) throws IOException, ResponseException {
         UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
         String authToken = command.getAuthToken();
         ChessMove move = command.getMove();
@@ -59,7 +60,7 @@ public class WebSocketHandler {
 //        System.out.println("WebSocket closed: " + session.getRemoteAddress());
 //    }
 
-    private void connect(Session session, String authToken, UserGameCommand command){
+    private void connect(Session session, String authToken, UserGameCommand command) throws ResponseException {
         System.out.println("Connected: " + session.getRemoteAddress().getAddress());
         List<Session> listSession = sessions.get(command.getGameID());
         if (listSession == null) {
@@ -68,6 +69,16 @@ public class WebSocketHandler {
         listSession.add(session);
         sessions.put(command.getGameID(), listSession);
         String gameID = command.getGameID();
+        if (service.invalidID(gameID)) {
+            ServerMessage message = new ErrorMessage("Error: Invalid game number");
+            try {
+                session.getRemote().sendString(new Gson().toJson(message));
+                System.out.println("errorMessage: " + new Gson().toJson(message));
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         ChessGame game = service.getGame(gameID);
         ServerMessage message = new LoadGameMessage(game);
         ServerMessage broadcastMessage = new NotificationMessage("UPDATE joined the game");
