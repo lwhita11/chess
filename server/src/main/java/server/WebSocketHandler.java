@@ -13,6 +13,7 @@ import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import service.ChessService;
+import websocket.commands.MakeMoveCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
@@ -32,8 +33,15 @@ public class WebSocketHandler {
     @OnWebSocketMessage
     public void onMessage(Session session, String message) {
         UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
+        MakeMoveCommand moveCommand = null;
+        if (command.getCommandType() == UserGameCommand.CommandType.MAKE_MOVE) {
+            moveCommand = new Gson().fromJson(message, MakeMoveCommand.class);
+            System.out.println("updated moveCommand");
+            ChessMove move = moveCommand.getMove();
+            System.out.println("chessMove: " + move.toString());
+        }
         String authToken = command.getAuthToken();
-        ChessMove move = command.getMove();
+        System.out.println("processing this command: " + message);
 //        if (service.invalidToken(authToken)) {
 //            throw new IOException();
 //        }
@@ -41,7 +49,7 @@ public class WebSocketHandler {
 
         switch (command.getCommandType()) {
             case CONNECT -> connect(session, authToken, command);
-            case MAKE_MOVE -> makeMove(session, authToken, command);
+            case MAKE_MOVE -> makeMove(session, authToken, moveCommand);
             case LEAVE -> leaveGame(session, authToken, command);
             case RESIGN -> resign(session, authToken, command);
         }
@@ -103,7 +111,7 @@ public class WebSocketHandler {
         }
     }
 
-    private void makeMove(Session session, String authToken, UserGameCommand command) {
+    private void makeMove(Session session, String authToken, MakeMoveCommand command) {
 
         ChessMove chessMove = command.getMove();
         System.out.println("in makeMove");
@@ -135,6 +143,16 @@ public class WebSocketHandler {
         ServerMessage broadcastMessage = new NotificationMessage("UPDATE made move: " + chessMove.toString());
         broadcastToGame(command.getGameID(), broadcastMessage, session);
         System.out.println("broadcasted move message");
+
+        ServerMessage message = new LoadGameMessage(game);
+        try {
+            System.out.println("sending message: " + new Gson().toJson(message));
+            session.getRemote().sendString(new Gson().toJson(message));
+            broadcastToGame(command.getGameID(), broadcastMessage, session);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void leaveGame(Session session, String authToken, UserGameCommand command) {

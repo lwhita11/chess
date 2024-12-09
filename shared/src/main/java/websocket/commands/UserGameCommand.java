@@ -17,13 +17,11 @@ public class UserGameCommand {
     private final String authToken;
 
     private final String gameID;
-    private final ChessMove chessMove;
 
-    public UserGameCommand(CommandType commandType, String authToken, String gameID, ChessMove chessMove) {
+    public UserGameCommand(CommandType commandType, String authToken, String gameID) {
         this.commandType = commandType;
         this.authToken = authToken;
         this.gameID = gameID;
-        this.chessMove = chessMove;
     }
 
     public enum CommandType {
@@ -44,8 +42,6 @@ public class UserGameCommand {
     public String getGameID() {
         return gameID;
     }
-
-    public ChessMove getMove() {return chessMove;}
 
     @Override
     public boolean equals(Object o) {
