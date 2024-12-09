@@ -195,10 +195,12 @@ public class MySqlDataAccess implements DataAccess{
     }
 
     public void updateGame(String gameID, ChessGame game) {
-        var statement = "UPDATE chessGames SET chessGame = ? WHERE gameID = ?";
+        var statement = "UPDATE chessGames SET json = ? WHERE gameID = ?";
         int gameInt = Integer.parseInt(gameID);
+        Gson gson = new Gson();
+        String jsonGame = gson.toJson(game);
         try {
-            executeUpdate(statement, game, gameInt);
+            executeUpdate(statement, jsonGame, gameInt);
         } catch (ResponseException e) {
             throw new RuntimeException(e);
         }

@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 public class ChessGame {
 
+
+    private boolean gameOver = false;
     private boolean whiteTurn = true;
     private ChessBoard board = new ChessBoard();
     public ChessGame() {
@@ -316,7 +318,13 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        return cannotMove(teamColor);
+        if (cannotMove(teamColor)) {
+            gameOver = true;
+            return true;
+        }
+        else{
+            return cannotMove(teamColor);
+        }
     }
 
     private boolean cannotMove(TeamColor teamColor){
@@ -340,6 +348,14 @@ public class ChessGame {
             return true;
         }
         return false;
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
     /**

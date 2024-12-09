@@ -135,6 +135,9 @@ public class WebSocketHandler {
         }
 
         ChessGame game = service.getGame(command.getGameID());
+        if (game.getGameOver()) {
+            sendError(session, new ErrorMessage("Error: Game is over"));
+        }
 
         Collection<ChessMove> validMoves = game.validMoves(chessMove.getStartPosition());
         if (!validMoves.contains(chessMove)) {
@@ -147,6 +150,10 @@ public class WebSocketHandler {
         Map<String, Object> gameMap = service.getGameMap(gameID);
         String blackUsername = (String) gameMap.get("blackUsername");
         String whiteUsername = (String) gameMap.get("whiteUsername");
+        System.out.println("User attempting to move: " + username);
+        System.out.println("WhiteUsername: " + whiteUsername);
+        System.out.println("BlackUsername: " + blackUsername);
+        System.out.println("Turn color: " + turnColor.toString());
         if (turnColor == ChessGame.TeamColor.BLACK && !username.equals(blackUsername)) {
             sendError(session, new ErrorMessage("Error: Cannot move when not your turn"));
             return;
@@ -156,7 +163,7 @@ public class WebSocketHandler {
             return;
         }
 
-
+        // service.makeMove(gameID, authToken, chessMove);
         System.out.println("preparing to broadcast move message");
 
         ServerMessage broadcastMessage = new NotificationMessage("UPDATE made move: " + chessMove.toString());
@@ -164,6 +171,7 @@ public class WebSocketHandler {
         System.out.println("broadcasted move message");
 
         ServerMessage message = new LoadGameMessage(game);
+        service.makeMove(gameID, authToken, chessMove);
         try {
             System.out.println("sending message: " + new Gson().toJson(message));
             session.getRemote().sendString(new Gson().toJson(message));
