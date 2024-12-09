@@ -23,7 +23,7 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-        Spark.webSocket("/connect", WebSocketHandler.class);
+        Spark.webSocket("/ws", WebSocketHandler.class);
         Spark.post("/session", this::login);
         Spark.post("/user", this::register);
         Spark.delete("/db", this::clear);
