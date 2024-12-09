@@ -46,7 +46,7 @@ public class ServerFacade {
         serverUrl = url;
     }
 
-    WebSocketCommunicator ws;
+    // WebSocketCommunicator ws;
 
     public void connectWS() {
         try {
