@@ -48,7 +48,13 @@ public class WebSocketHandler {
         }
     }
 
+    @OnWebSocketConnect
+    public void onConnect(Session session) {
+        System.out.println("WebSocket connected: " + session.getRemoteAddress());
+    }
+
     private void connect(Session session, String authToken, UserGameCommand command){
+        System.out.println("Connected: " + session.getRemoteAddress().getAddress());
         sessions.put(command.getGameID(), session);
         ServerMessage message = new ServerMessage(ServerMessage.ServerMessageType.NOTIFICATION);
         try {

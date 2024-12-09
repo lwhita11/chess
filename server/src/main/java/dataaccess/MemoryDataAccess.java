@@ -1,5 +1,7 @@
 package dataaccess;
 
+import chess.ChessGame;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,5 +77,9 @@ public class MemoryDataAccess implements DataAccess{
             game.put("whiteUsername", username);
             gamesMap.put(gameID, game);
         }
+    }
+
+    public void updateGame(String gameID, ChessGame game) {
+        return;
     }
 }
