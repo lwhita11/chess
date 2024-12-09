@@ -43,11 +43,6 @@ public class ChessClient {
                 case "join" -> joinGame(params);
                 case "observe" -> observeGame(params);
                 case "redraw" -> redraw();
-//                case "leave" -> leave();
-//                case "makemove" -> makeMove(params);
-//                case "resign" -> resign();
-//                case "y" -> confirmResign();
-//                case "n" -> declineResign();
                 default -> help();
             };
         } catch (ResponseException ex) {
