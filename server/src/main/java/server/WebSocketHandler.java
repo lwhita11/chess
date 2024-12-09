@@ -65,10 +65,22 @@ public class WebSocketHandler {
 //        System.out.println(("WebSocket error: " + session.getRemoteAddress()));
 //    }
 
-//    @OnWebSocketClose
-//    public void onClose(Session session) {
-//        System.out.println("WebSocket closed: " + session.getRemoteAddress());
-//    }
+    @OnWebSocketClose
+    public void onClose(Session session, int statusCode, String reason) {
+        System.out.println("WebSocket closed: " + session.getRemoteAddress());
+
+        sessions.forEach((gameID, sessionList) -> {
+            synchronized (sessionList) {
+                if (sessionList.remove(session)) {
+                    System.out.println("Removed session from gameID: " + gameID);
+                    if (sessionList.isEmpty()) {
+                        sessions.remove(gameID);
+                        System.out.println("Removed gameID: " + gameID + " as it no longer has any sessions.");
+                    }
+                }
+            }
+        });
+    }
 
     private void connect(Session session, String authToken, UserGameCommand command) {
         System.out.println("Connected: " + session.getRemoteAddress().getAddress());
@@ -148,7 +160,7 @@ public class WebSocketHandler {
         try {
             System.out.println("sending message: " + new Gson().toJson(message));
             session.getRemote().sendString(new Gson().toJson(message));
-            broadcastToGame(command.getGameID(), broadcastMessage, session);
+            broadcastToGame(command.getGameID(), message, session);
         } catch (IOException e) {
             e.printStackTrace();
         }
