@@ -149,4 +149,15 @@ public class ChessService {
         dataAccess.updateGame(gameID, currGame);
         return currGame.getBoard();
     }
+
+    public String getUsername(String authToken) {
+        if (invalidToken(authToken)) {
+            return null;
+        }
+        return dataAccess.getUsername(authToken);
+    }
+
+    public Map<String, Object> getGameMap(String gameID) {
+        return dataAccess.getGame(gameID);
+    }
 }

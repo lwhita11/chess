@@ -150,6 +150,21 @@ public class WebSocketHandler {
             return;
         }
 
+        ChessGame.TeamColor turnColor = game.getTeamTurn();
+        String username = service.getUsername(authToken);
+        Map<String, Object> gameMap = service.getGameMap(gameID);
+        String blackUsername = (String) gameMap.get("blackUsername");
+        String whiteUsername = (String) gameMap.get("whiteUsername");
+        if (turnColor == ChessGame.TeamColor.BLACK && !username.equals(blackUsername)) {
+            sendError(session, new ErrorMessage("Error: Cannot move when not your turn"));
+            return;
+        }
+        if (turnColor == ChessGame.TeamColor.WHITE && !username.equals(whiteUsername)) {
+            sendError(session, new ErrorMessage("Error: Cannot move when not your turn"));
+            return;
+        }
+
+
         System.out.println("preparing to broadcast move message");
 
         ServerMessage broadcastMessage = new NotificationMessage("UPDATE made move: " + chessMove.toString());
