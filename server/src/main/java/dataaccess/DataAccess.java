@@ -20,6 +20,8 @@ public interface DataAccess {
     public void setBlackTeam(String username, String gameID);
     public void setWhiteTeam(String username, String gameID);
     public void updateGame(String gameID, ChessGame game);
+    public void removeBlackTeam(String gameID);
+    public void removeWhiteTeam(String gameID);
 }
 
 

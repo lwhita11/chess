@@ -184,11 +184,31 @@ public class MySqlDataAccess implements DataAccess{
         }
     }
 
+    public void removeBlackTeam(String gameID) {
+        var statement = "UPDATE chessGames SET blackUsername = null WHERE gameID = ?";
+        int gameInt = Integer.parseInt(gameID);
+        try {
+            executeUpdate(statement, gameID);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setWhiteTeam(String username, String gameID){
         var statement = "UPDATE chessGames SET whiteUsername = ? WHERE gameID = ?";
         int gameInt = Integer.parseInt(gameID);
         try {
             executeUpdate(statement, username, gameInt);
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeWhiteTeam(String gameID) {
+        var statement = "UPDATE chessGames SET whiteUsername = null WHERE gameID = ?";
+        int gameInt = Integer.parseInt(gameID);
+        try {
+            executeUpdate(statement, gameID);
         } catch (ResponseException e) {
             throw new RuntimeException(e);
         }

@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3287f1be-d881-48c8-8b12-726859ebe052" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/DataAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MemoryDataAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dataaccess/MySqlDataAccess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/server/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/server/WebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/chess/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/service/ChessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/service/ChessService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,8 +142,14 @@
     "JUnit.WebSocketTests.executor": "Run",
     "JUnit.WebSocketTests.invalidMoveBadMove.executor": "Run",
     "JUnit.WebSocketTests.invalidMoveWrongTurn.executor": "Run",
+    "JUnit.WebSocketTests.invalidResignGameOver.executor": "Run",
+    "JUnit.WebSocketTests.invalidResignObserver.executor": "Run",
+    "JUnit.WebSocketTests.joinAfterLeaveGame.executor": "Run",
+    "JUnit.WebSocketTests.leaveGame.executor": "Run",
     "JUnit.WebSocketTests.makeMoveBadAuthtoken.executor": "Run",
+    "JUnit.WebSocketTests.moveAfterResign.executor": "Run",
     "JUnit.WebSocketTests.validMove.executor": "Run",
+    "JUnit.WebSocketTests.validResign.executor": "Run",
     "JUnit.passoff in shared.executor": "Run",
     "JUnit.passoff.chess in shared.executor": "Run",
     "JUnit.passoff.chess.piece in shared.executor": "Run",
@@ -188,13 +196,6 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.WebSocketTests">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="WebSocketTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -210,7 +211,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.invalidMoveBadMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.invalidResignGameOver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -220,13 +221,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="invalidMoveBadMove" />
+      <option name="METHOD_NAME" value="invalidResignGameOver" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.invalidMoveWrongTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.invalidResignObserver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -236,13 +237,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="invalidMoveWrongTurn" />
+      <option name="METHOD_NAME" value="invalidResignObserver" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebSocketTests.validMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WebSocketTests.joinAfterLeaveGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -252,7 +253,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="passoff.server" />
       <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
-      <option name="METHOD_NAME" value="validMove" />
+      <option name="METHOD_NAME" value="joinAfterLeaveGame" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketTests.moveAfterResign" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="passoff.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="passoff.server" />
+      <option name="MAIN_CLASS_NAME" value="passoff.server.WebSocketTests" />
+      <option name="METHOD_NAME" value="moveAfterResign" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -261,10 +278,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.WebSocketTests" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.WebSocketTests.validMove" />
-        <item itemvalue="JUnit.WebSocketTests.invalidMoveBadMove" />
-        <item itemvalue="JUnit.WebSocketTests.invalidMoveWrongTurn" />
+        <item itemvalue="JUnit.WebSocketTests.joinAfterLeaveGame" />
+        <item itemvalue="JUnit.WebSocketTests.invalidResignGameOver" />
+        <item itemvalue="JUnit.WebSocketTests.invalidResignObserver" />
+        <item itemvalue="JUnit.WebSocketTests.moveAfterResign" />
       </list>
     </recent_temporary>
   </component>
@@ -289,7 +306,7 @@
       <workItem from="1726780202326" duration="1241000" />
       <workItem from="1727459622624" duration="6690000" />
       <workItem from="1727662855883" duration="111557000" />
-      <workItem from="1730342846956" duration="162487000" />
+      <workItem from="1730342846956" duration="164737000" />
     </task>
     <servers />
   </component>

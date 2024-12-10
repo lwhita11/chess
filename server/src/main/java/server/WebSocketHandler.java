@@ -10,6 +10,7 @@ import dataaccess.MySqlDataAccess;
 import exception.ResponseException;
 import model.AuthData;
 import model.GameData;
+import org.eclipse.jetty.server.Authentication;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import service.ChessService;
@@ -137,6 +138,7 @@ public class WebSocketHandler {
         ChessGame game = service.getGame(command.getGameID());
         if (game.getGameOver()) {
             sendError(session, new ErrorMessage("Error: Game is over"));
+            return;
         }
 
         Collection<ChessMove> validMoves = game.validMoves(chessMove.getStartPosition());
@@ -150,10 +152,6 @@ public class WebSocketHandler {
         Map<String, Object> gameMap = service.getGameMap(gameID);
         String blackUsername = (String) gameMap.get("blackUsername");
         String whiteUsername = (String) gameMap.get("whiteUsername");
-        System.out.println("User attempting to move: " + username);
-        System.out.println("WhiteUsername: " + whiteUsername);
-        System.out.println("BlackUsername: " + blackUsername);
-        System.out.println("Turn color: " + turnColor.toString());
         if (turnColor == ChessGame.TeamColor.BLACK && !username.equals(blackUsername)) {
             sendError(session, new ErrorMessage("Error: Cannot move when not your turn"));
             return;
@@ -183,11 +181,65 @@ public class WebSocketHandler {
     }
 
     private void leaveGame(Session session, String authToken, UserGameCommand command) {
+        String gameID = command.getGameID();
+        if (service.invalidID(gameID)) {
+            sendError(session, new ErrorMessage("Error: Invalid game number"));
+            return;
+        }
+        if (service.invalidToken(authToken)) {
+            sendError(session, new ErrorMessage("Error: Invalid authToken"));
+            return;
+        }
+        ServerMessage broadcastMessage = new NotificationMessage("UPDATE has left the game");
+        broadcastToGame(command.getGameID(), broadcastMessage, session);
+        onClose(session, 200, "User left game");
+        String username = service.getUsername(authToken);
+        Map<String, Object> gameMap = service.getGameMap(gameID);
+        String blackUsername = (String) gameMap.get("blackUsername");
+        String whiteUsername = (String) gameMap.get("whiteUsername");
+        if (username.equals(blackUsername)) {
+            service.removeBlackTeam(gameID);
+        }
+        if (username.equals(whiteUsername)) {
+            service.removeWhiteTeam(gameID);
+        }
 
     }
 
     private void resign(Session session, String authToken, UserGameCommand command) {
+        String gameID = command.getGameID();
+        if (service.invalidID(gameID)) {
+            sendError(session, new ErrorMessage("Error: Invalid game number"));
+            return;
+        }
+        ChessGame game = service.getGame(gameID);
+        if (service.invalidToken(authToken)) {
+            sendError(session, new ErrorMessage("Error: Invalid authToken"));
+            return;
+        }
+        if (game.getGameOver()) {
+            sendError(session, new ErrorMessage("Error: Game is already completed"));
+            return;
+        }
+        String username = service.getUsername(authToken);
+        Map<String, Object> gameMap = service.getGameMap(gameID);
+        String blackUsername = (String) gameMap.get("blackUsername");
+        String whiteUsername = (String) gameMap.get("whiteUsername");
+        if (!username.equals(blackUsername) && !username.equals(whiteUsername)) {
+            sendError(session, new ErrorMessage("Error: cannot resign as observer"));
+            return;
+        }
 
+        game.setGameOver(true);
+        service.updateGame(gameID, game);
+        ServerMessage broadcastMessage = new NotificationMessage("UPDATE has resigned the game");
+        broadcastToGame(command.getGameID(), broadcastMessage, session);
+        ServerMessage message = new NotificationMessage("You have left the game");
+        try {
+            session.getRemote().sendString(new Gson().toJson(message));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

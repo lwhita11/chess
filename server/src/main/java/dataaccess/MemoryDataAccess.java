@@ -82,4 +82,11 @@ public class MemoryDataAccess implements DataAccess{
     public void updateGame(String gameID, ChessGame game) {
         return;
     }
+
+    public void removeWhiteTeam(String gameID) {
+        return;
+    }
+    public void removeBlackTeam(String gameID) {
+        return;
+    }
 }

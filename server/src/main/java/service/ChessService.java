@@ -160,4 +160,16 @@ public class ChessService {
     public Map<String, Object> getGameMap(String gameID) {
         return dataAccess.getGame(gameID);
     }
+
+    public void updateGame(String gameID, ChessGame game) {
+        dataAccess.updateGame(gameID, game);
+    }
+
+    public void removeWhiteTeam(String gameID) {
+        dataAccess.removeWhiteTeam(gameID);
+    }
+    public void removeBlackTeam(String gameID) {
+        dataAccess.removeBlackTeam(gameID);
+    }
+
 }
